@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1B36BA7A0422EDA31C237DE9 /* Pods_Apple_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */; };
+		DD71B26C26AD31870025F6BA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DD71B26B26AD31870025F6BA /* .swiftlint.yml */; };
 		DDD3F2EF26AC3C2400FD547A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2EE26AC3C2400FD547A /* AppDelegate.swift */; };
 		DDD3F2F126AC3C2400FD547A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2F026AC3C2400FD547A /* SceneDelegate.swift */; };
 		DDD3F2F326AC3C2400FD547A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2F226AC3C2400FD547A /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 		1FA7461C9B7639AE3E2C2BB9 /* Pods-Apple-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.release.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.release.xcconfig"; sourceTree = "<group>"; };
 		712DC363CDEAC039A503B888 /* Pods-Apple-Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.debug.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.debug.xcconfig"; sourceTree = "<group>"; };
 		A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apple_Weather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD71B26B26AD31870025F6BA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DDD3F2EB26AC3C2400FD547A /* Apple-Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apple-Weather.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD3F2EE26AC3C2400FD547A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDD3F2F026AC3C2400FD547A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		DDD3F2E226AC3C2400FD547A = {
 			isa = PBXGroup;
 			children = (
+				DD71B26B26AD31870025F6BA /* .swiftlint.yml */,
 				DDD3F2ED26AC3C2400FD547A /* Apple-Weather */,
 				DDD3F2EC26AC3C2400FD547A /* Products */,
 				E56F29425A93FF4C3BDFFF55 /* Pods */,
@@ -120,7 +123,6 @@
 				712DC363CDEAC039A503B888 /* Pods-Apple-Weather.debug.xcconfig */,
 				1FA7461C9B7639AE3E2C2BB9 /* Pods-Apple-Weather.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -136,6 +138,7 @@
 				DDD3F2E826AC3C2400FD547A /* Frameworks */,
 				DDD3F2E926AC3C2400FD547A /* Resources */,
 				06ED733A393E99746A39C2BD /* [CP] Embed Pods Frameworks */,
+				DD71B26D26AD339C0025F6BA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -183,6 +186,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD71B26C26AD31870025F6BA /* .swiftlint.yml in Resources */,
 				DDD3F2FB26AC3C2500FD547A /* LaunchScreen.storyboard in Resources */,
 				DDD3F2F826AC3C2500FD547A /* Assets.xcassets in Resources */,
 				DDD3F2F626AC3C2400FD547A /* Main.storyboard in Resources */,
@@ -230,6 +234,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DD71B26D26AD339C0025F6BA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
