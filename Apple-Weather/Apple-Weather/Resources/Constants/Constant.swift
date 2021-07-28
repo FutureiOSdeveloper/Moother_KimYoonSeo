@@ -10,8 +10,14 @@ struct Constants {
         static let dailyWeather: String = "DailyWeatherHeaderView"
     }
     
+    struct TableViewFooters {
+        static let weekWeather: String = "WeekWeatherFooterView"
+    }
+    
     struct TableViewCells {
         static let temperature: String = "TemperatureTableViewCell"
+        static let week: String = "WeekTableViewCell"
+        static let weekWeather: String = "WeekWeatherTableViewCell"
     }
     
     struct CollectionViewCells {
