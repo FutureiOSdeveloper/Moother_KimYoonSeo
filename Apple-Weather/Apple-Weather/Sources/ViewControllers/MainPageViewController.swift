@@ -12,7 +12,6 @@ import Then
 
 class MainPageViewController: UIViewController {
     
-    private let backgroundColors: [UIColor] = [.green, .blue, .brown]
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     private let pageControl = UIPageControl().then {
@@ -35,10 +34,9 @@ class MainPageViewController: UIViewController {
         }
     }
     
-    private func instantiateViewController(index: Int, color: UIColor) -> UIViewController {
+    private func instantiateViewController(index: Int) -> UIViewController {
        let vc = MainViewController()
        vc.view.tag = index
-       vc.view.backgroundColor = color
        return vc
     }
 
@@ -52,7 +50,7 @@ class MainPageViewController: UIViewController {
        pageViewController.dataSource = self
        pageViewController.delegate = self
        
-       let firstViewController = instantiateViewController(index: 0, color: backgroundColors[0])
+       let firstViewController = instantiateViewController(index: 0)
        pageViewController.setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
        
        addChild(pageViewController)
@@ -69,7 +67,7 @@ class MainPageViewController: UIViewController {
             $0.height.equalTo(70)
         }
         
-        pageControl.numberOfPages = backgroundColors.count
+        pageControl.numberOfPages = 3
        
         pageControlBarView.addSubview(pageControl)
         
@@ -88,17 +86,17 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
 
-        let nextIndex = index > 0 ? index - 1 : backgroundColors.count - 1
+        let nextIndex = index > 0 ? index - 1 : 3 - 1
 
-        let nextVC = instantiateViewController(index: nextIndex, color: backgroundColors[nextIndex])
+        let nextVC = instantiateViewController(index: nextIndex)
         return nextVC
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
         
-        let nextIndex = (index + 1) % backgroundColors.count
-        let nextVC = instantiateViewController(index: nextIndex, color: backgroundColors[nextIndex])
+        let nextIndex = (index + 1) % 3
+        let nextVC = instantiateViewController(index: nextIndex)
         
         return nextVC
     }
