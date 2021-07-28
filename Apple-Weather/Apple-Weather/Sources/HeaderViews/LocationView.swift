@@ -11,7 +11,7 @@ class LocationView: UIView {
     
     private let locationLabel = UILabel().then {
         $0.text = "용인시"
-        $0.font = .systemFont(ofSize: 22)
+        $0.font = .systemFont(ofSize: 28)
     }
     
     private let weatherLabel = UILabel().then {
@@ -28,7 +28,6 @@ class LocationView: UIView {
     public init() {
         super.init(frame: CGRect.zero)
         layoutLocationSectionHeaderView()
-        backgroundColor = .brown
     }
     
     required init?(coder: NSCoder) {

@@ -57,6 +57,9 @@ extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
         
+        let indexPath = IndexPath(row: 0, section: 0)
+        let cell = mainTableView.cellForRow(at: indexPath)
+        
         if translation.y > 0 {
             if 100 + translation.y < 160 && locationView.frame.height < 140 {
                 locationView.snp.remakeConstraints {
@@ -64,6 +67,9 @@ extension MainViewController: UITableViewDelegate {
                     $0.leading.trailing.equalToSuperview()
                     $0.height.equalTo(100 + translation.y)
                 }
+                cell?.contentView.alpha = translation.y / 60
+            } else {
+                cell?.contentView.alpha = 1
             }
         } else {
             if 160 + translation.y > 100 && locationView.frame.height > 110 {
@@ -72,11 +78,10 @@ extension MainViewController: UITableViewDelegate {
                     $0.leading.trailing.equalToSuperview()
                     $0.height.equalTo(160 + translation.y)
                 }
+                cell?.contentView.alpha = 1 + translation.y / 60
             }
         }
         
-        print("\(translation.y)")
-        print(" locationView.frame.height : \(locationView.frame.height)")
     }
     
 }

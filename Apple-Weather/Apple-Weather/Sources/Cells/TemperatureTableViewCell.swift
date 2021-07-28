@@ -14,7 +14,7 @@ class TemperatureTableViewCell: UITableViewCell {
     
     private let temperatureLabel = UILabel().then {
         $0.text = "34"
-        $0.font = .systemFont(ofSize: 50)
+        $0.font = .systemFont(ofSize: 60)
     }
     
     private let highTemperatureLabel = UILabel().then {
@@ -53,7 +53,7 @@ class TemperatureTableViewCell: UITableViewCell {
         hStackView.snp.makeConstraints {
             $0.top.equalTo(temperatureLabel.snp.bottom).inset(-10)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-30)
+            $0.bottom.equalToSuperview().offset(-50)
         }
         
     }
