@@ -7,12 +7,16 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 class DailyWeatherHeaderView: UITableViewHeaderFooterView {
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
+        layout.itemSize = CGSize(width: 60, height: 120)
         
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
@@ -65,12 +69,4 @@ extension DailyWeatherHeaderView: UICollectionViewDataSource {
         return cell
     }
     
-}
-
-extension DailyWeatherCollectionViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.size.width / 414 * 59
-        let height = width * 2
-        return CGSize(width: width, height: height)
-    }
 }

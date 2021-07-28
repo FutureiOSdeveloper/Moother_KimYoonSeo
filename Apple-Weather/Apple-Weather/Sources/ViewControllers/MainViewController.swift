@@ -36,7 +36,8 @@ class MainViewController: UIViewController {
         
         mainTableView.snp.makeConstraints {
             $0.top.equalTo(locationView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-70)
         }
         
     }
@@ -47,8 +48,7 @@ class MainViewController: UIViewController {
         
         mainTableView.register(DailyWeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewHeaders.dailyWeather)
         mainTableView.register(TemperatureTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.temperature)
-        
-        print("\(mainTableView.contentOffset.y)")
+        mainTableView.register(WeekTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
     }
     
 }
@@ -84,6 +84,14 @@ extension MainViewController: UITableViewDelegate {
         
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return 580
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -109,7 +117,7 @@ extension MainViewController: UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 20
+            return 1
         default:
             return 0
         }
@@ -122,7 +130,8 @@ extension MainViewController: UITableViewDataSource {
             else { return UITableViewCell() }
             return cell
         case 1:
-            return UITableViewCell()
+            guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
+            return cell
         default:
             return UITableViewCell()
         }
@@ -133,7 +142,7 @@ extension MainViewController: UITableViewDataSource {
         case 0:
             return 0
         case 1:
-            return 100
+            return 120
         default:
             return UITableView.automaticDimension
         }
