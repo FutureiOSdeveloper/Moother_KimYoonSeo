@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1B36BA7A0422EDA31C237DE9 /* Pods_Apple_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */; };
+		DD65D01C26B12133008BEF79 /* WeekTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */; };
+		DD65D01E26B12223008BEF79 /* WeekWeatherTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */; };
+		DD65D02126B1292A008BEF79 /* WeekWeatherFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */; };
 		DD71B26C26AD31870025F6BA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DD71B26B26AD31870025F6BA /* .swiftlint.yml */; };
 		DD71B26F26AD3A770025F6BA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD71B26E26AD3A770025F6BA /* MainViewController.swift */; };
 		DD81571726AFA796000691B1 /* TemperatureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD81571626AFA796000691B1 /* TemperatureTableViewCell.swift */; };
@@ -29,6 +32,9 @@
 		1FA7461C9B7639AE3E2C2BB9 /* Pods-Apple-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.release.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.release.xcconfig"; sourceTree = "<group>"; };
 		712DC363CDEAC039A503B888 /* Pods-Apple-Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.debug.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.debug.xcconfig"; sourceTree = "<group>"; };
 		A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apple_Weather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTableViewCell.swift; sourceTree = "<group>"; };
+		DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekWeatherTableviewCell.swift; sourceTree = "<group>"; };
+		DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekWeatherFooterView.swift; sourceTree = "<group>"; };
 		DD71B26B26AD31870025F6BA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DD71B26E26AD3A770025F6BA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DD81571626AFA796000691B1 /* TemperatureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureTableViewCell.swift; sourceTree = "<group>"; };
@@ -68,11 +74,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DD65D01F26B12913008BEF79 /* Footers */ = {
+			isa = PBXGroup;
+			children = (
+				DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */,
+			);
+			path = Footers;
+			sourceTree = "<group>";
+		};
 		DD81571826AFA79B000691B1 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				DD81571626AFA796000691B1 /* TemperatureTableViewCell.swift */,
 				DD873C3126B05A07003857A0 /* DailyWeatherCollectionViewCell.swift */,
+				DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */,
+				DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -134,6 +150,7 @@
 		DDD3F30426AC3C8C00FD547A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DD65D01F26B12913008BEF79 /* Footers */,
 				DD81571826AFA79B000691B1 /* Cells */,
 				DD8FD39F26AF0D9E0005D84D /* Extensions */,
 				DD8FD39C26AF0C4C0005D84D /* HeaderViews */,
@@ -318,9 +335,12 @@
 				DD8FD3A126AF0DD50005D84D /* UIView+Extension.swift in Sources */,
 				DD8FD3A326AF0DFC0005D84D /* UIStackView+Extension.swift in Sources */,
 				DDD3F2F326AC3C2400FD547A /* MainPageViewController.swift in Sources */,
+				DD65D01E26B12223008BEF79 /* WeekWeatherTableviewCell.swift in Sources */,
 				DD8FD3A626AF0F8D0005D84D /* Constant.swift in Sources */,
+				DD65D01C26B12133008BEF79 /* WeekTableViewCell.swift in Sources */,
 				DD81571A26AFAE28000691B1 /* LocationView.swift in Sources */,
 				DD81571726AFA796000691B1 /* TemperatureTableViewCell.swift in Sources */,
+				DD65D02126B1292A008BEF79 /* WeekWeatherFooterView.swift in Sources */,
 				DDD3F2EF26AC3C2400FD547A /* AppDelegate.swift in Sources */,
 				DDD3F2F126AC3C2400FD547A /* SceneDelegate.swift in Sources */,
 				DD71B26F26AD3A770025F6BA /* MainViewController.swift in Sources */,
