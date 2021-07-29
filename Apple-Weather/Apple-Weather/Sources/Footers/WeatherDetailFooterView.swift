@@ -1,8 +1,8 @@
 //
-//  WeekWeatherFooterView.swift
+//  WeatherDetailFooterView.swift
 //  Apple-Weather
 //
-//  Created by 김윤서 on 2021/07/28.
+//  Created by 김윤서 on 2021/07/29.
 //
 
 import UIKit
@@ -10,10 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-class WeekWeatherFooterView: UITableViewHeaderFooterView {
+class WeatherDetailFooterView: UITableViewHeaderFooterView {
     
     private let label = UILabel().then {
-        $0.text = "오늘: 날씨 한때 흐림, 체감 더위는 39도입니다. 최고 기온은 35도 입니다. 오늘 밤 날씨는 한때 흐림, 최저 기온은 24도 입니다."
+        $0.text = "기흥역로 날씨. 지도에서 열기"
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.numberOfLines = 0
         $0.textColor = .white
@@ -21,14 +21,14 @@ class WeekWeatherFooterView: UITableViewHeaderFooterView {
   
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        layoutWeekWeatherFooterView()
+        layoutWeatherDetailFooterView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("coder doesn't exist")
     }
     
-    private func layoutWeekWeatherFooterView() {
+    private func layoutWeatherDetailFooterView() {
         addSubviews(label)
         
         label.snp.makeConstraints {

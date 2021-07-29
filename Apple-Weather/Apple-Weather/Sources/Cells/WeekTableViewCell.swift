@@ -12,7 +12,14 @@ import Then
 
 class WeekTableViewCell: UITableViewCell {
     
-    private let weekWeatherTableView = UITableView(frame: .zero, style: .grouped).then { $0.backgroundColor = .clear
+    private let weekWeatherTableView = UITableView(frame: .zero, style: .grouped).then {
+        $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
+        $0.isScrollEnabled = false
+    }
+    
+    public func setEnabledScroll(isScrollEnabled: Bool) {
+        weekWeatherTableView.isScrollEnabled = isScrollEnabled
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -31,35 +38,63 @@ class WeekTableViewCell: UITableViewCell {
         
         weekWeatherTableView.register(WeekWeatherTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.weekWeather)
         weekWeatherTableView.register(WeekWeatherFooterView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewFooters.weekWeather)
+        weekWeatherTableView.register(WeatherDetailTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.weatherDetail)
+        weekWeatherTableView.register(WeatherDetailFooterView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewFooters.weatherDetail)
     }
     
     private func layoutWeekWeatherTableViewCell() {
+        backgroundColor = .clear
         contentView.addSubviews(weekWeatherTableView)
         
         weekWeatherTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        print(weekWeatherTableView.frame.height)
     }
 }
 
 extension WeekTableViewCell: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        switch indexPath.section {
+        case 0:
+            return 35
+        case 1:
+            return 50
+        default:
+            return 0
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewFooters.weekWeather) as? WeekWeatherFooterView
-        else {
-            return UIView()
+        switch section {
+        case 0:
+            guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewFooters.weekWeather) as? WeekWeatherFooterView
+            else {
+                return UIView()
+            }
+            return footer
+        case 1:
+            guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewFooters.weatherDetail) as? WeatherDetailFooterView
+            else {
+                return UIView()
+            }
+            return footer
+        default:
+            return nil
         }
-        
-        return footer
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 130
+        switch section {
+        case 0:
+            return 100
+        case 1:
+            return 50
+        default:
+            return 0
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -72,14 +107,38 @@ extension WeekTableViewCell: UITableViewDelegate {
 }
 
 extension WeekTableViewCell: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        switch section {
+        case 0:
+            return 9
+        case 1:
+            return 5
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weekWeather, for: indexPath) as? WeekWeatherTableViewCell else { return UITableViewCell() }
-        print(weekWeatherTableView.frame.height)
-        return cell
+        
+        switch indexPath.section {
+        case 0:
+            guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weekWeather, for: indexPath) as? WeekWeatherTableViewCell
+            else { return UITableViewCell() }
+            cell.selectionStyle = .none
+            return cell
+        case 1:
+            guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weatherDetail, for: indexPath) as? WeatherDetailTableViewCell
+            else { return UITableViewCell() }
+            cell.selectionStyle = .none
+            return cell
+        default:
+            return UITableViewCell()
+        }
+        
     }
     
 }
