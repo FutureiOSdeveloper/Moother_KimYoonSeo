@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
         }
         
         mainTableView.snp.makeConstraints {
-            $0.top.equalTo(locationView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-70)
         }
@@ -79,15 +79,21 @@ extension MainViewController: UITableViewDelegate {
                     $0.height.equalTo(160 + translation.y)
                 }
                 cell?.contentView.alpha = 1 + translation.y / 60
+            } else {
+                cell?.contentView.alpha = 0
             }
         }
+        print(translation.y)
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
+        switch indexPath.section {
+        case 0:
+            return 350
+        case 1:
             return 580
-        } else {
+        default:
             return UITableView.automaticDimension
         }
     }
@@ -128,9 +134,11 @@ extension MainViewController: UITableViewDataSource {
         case 0:
             guard let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.temperature, for: indexPath) as? TemperatureTableViewCell
             else { return UITableViewCell() }
+            cell.backgroundColor = .clear
             return cell
         case 1:
             guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
+            cell.backgroundColor = .clear
             return cell
         default:
             return UITableViewCell()
