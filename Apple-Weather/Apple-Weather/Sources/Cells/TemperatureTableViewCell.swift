@@ -14,17 +14,20 @@ class TemperatureTableViewCell: UITableViewCell {
     
     private let temperatureLabel = UILabel().then {
         $0.text = "34"
-        $0.font = .systemFont(ofSize: 80)
+        $0.font = .systemFont(ofSize: 80, weight: .thin)
+        $0.textColor = .white
     }
     
     private let highTemperatureLabel = UILabel().then {
         $0.text = "최고:34"
         $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .white
     }
     
     private let lowTemperatureLabel = UILabel().then {
         $0.text = "최저:24"
         $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .white
     }
     
     private let hStackView = UIStackView().then {
@@ -42,6 +45,8 @@ class TemperatureTableViewCell: UITableViewCell {
     }
     
     private func layoutTemperatureTableViewCell() {
+        backgroundColor = .clear
+        
         contentView.addSubviews(temperatureLabel, hStackView)
         hStackView.addArrangedSubviews(highTemperatureLabel, lowTemperatureLabel)
         

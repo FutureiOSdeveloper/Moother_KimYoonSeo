@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1B36BA7A0422EDA31C237DE9 /* Pods_Apple_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */; };
+		DD56E5CE26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD56E5CD26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift */; };
+		DD56E5D026B28C0E00D9F0A2 /* WeatherDetailFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD56E5CF26B28C0E00D9F0A2 /* WeatherDetailFooterView.swift */; };
 		DD65D01C26B12133008BEF79 /* WeekTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */; };
 		DD65D01E26B12223008BEF79 /* WeekWeatherTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */; };
 		DD65D02126B1292A008BEF79 /* WeekWeatherFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */; };
@@ -32,6 +34,8 @@
 		1FA7461C9B7639AE3E2C2BB9 /* Pods-Apple-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.release.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.release.xcconfig"; sourceTree = "<group>"; };
 		712DC363CDEAC039A503B888 /* Pods-Apple-Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Apple-Weather.debug.xcconfig"; path = "Target Support Files/Pods-Apple-Weather/Pods-Apple-Weather.debug.xcconfig"; sourceTree = "<group>"; };
 		A1E1FF9BB0AB0619AC55DA3A /* Pods_Apple_Weather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Apple_Weather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD56E5CD26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailTableViewCell.swift; sourceTree = "<group>"; };
+		DD56E5CF26B28C0E00D9F0A2 /* WeatherDetailFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailFooterView.swift; sourceTree = "<group>"; };
 		DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTableViewCell.swift; sourceTree = "<group>"; };
 		DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekWeatherTableviewCell.swift; sourceTree = "<group>"; };
 		DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekWeatherFooterView.swift; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				DD65D02026B1292A008BEF79 /* WeekWeatherFooterView.swift */,
+				DD56E5CF26B28C0E00D9F0A2 /* WeatherDetailFooterView.swift */,
 			);
 			path = Footers;
 			sourceTree = "<group>";
@@ -89,6 +94,7 @@
 				DD873C3126B05A07003857A0 /* DailyWeatherCollectionViewCell.swift */,
 				DD65D01B26B12133008BEF79 /* WeekTableViewCell.swift */,
 				DD65D01D26B12223008BEF79 /* WeekWeatherTableviewCell.swift */,
+				DD56E5CD26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -337,7 +343,9 @@
 				DDD3F2F326AC3C2400FD547A /* MainPageViewController.swift in Sources */,
 				DD65D01E26B12223008BEF79 /* WeekWeatherTableviewCell.swift in Sources */,
 				DD8FD3A626AF0F8D0005D84D /* Constant.swift in Sources */,
+				DD56E5D026B28C0E00D9F0A2 /* WeatherDetailFooterView.swift in Sources */,
 				DD65D01C26B12133008BEF79 /* WeekTableViewCell.swift in Sources */,
+				DD56E5CE26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift in Sources */,
 				DD81571A26AFAE28000691B1 /* LocationView.swift in Sources */,
 				DD81571726AFA796000691B1 /* TemperatureTableViewCell.swift in Sources */,
 				DD65D02126B1292A008BEF79 /* WeekWeatherFooterView.swift in Sources */,

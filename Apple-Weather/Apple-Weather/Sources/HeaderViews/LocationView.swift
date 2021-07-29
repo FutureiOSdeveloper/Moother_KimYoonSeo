@@ -12,11 +12,13 @@ class LocationView: UIView {
     private let locationLabel = UILabel().then {
         $0.text = "용인시"
         $0.font = .systemFont(ofSize: 28)
+        $0.textColor = .white
     }
     
     private let weatherLabel = UILabel().then {
         $0.text = "한때 흐림"
         $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .white
     }
     
     private let vStackView = UIStackView().then {

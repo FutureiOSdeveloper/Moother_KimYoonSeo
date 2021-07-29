@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     
     private let mainTableView = UITableView(frame: .zero, style: .plain).then {
         $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
     }
     
     private let spacingView = UIView()
@@ -26,6 +27,8 @@ class MainViewController: UIViewController {
     }
     
     private func layoutMainViewController() {
+        view.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 86/255, alpha: 1)
+        
         view.addSubviews(locationView, mainTableView)
 
         locationView.snp.makeConstraints {
@@ -59,8 +62,9 @@ extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let percentage = lastContentOffset / 292 * 3.5
-        let indexPath = IndexPath(row: 0, section: 0)
-        let cell = mainTableView.cellForRow(at: indexPath)
+        let cell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0))
+        
+        guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
         
         if percentage > 0 {
             if 40 * (1 - percentage) > 0 {
@@ -70,9 +74,11 @@ extension MainViewController: UITableViewDelegate {
                     $0.height.equalTo(100)
                 }
                 cell?.alpha = 1 - percentage
+                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             } else {
                 cell?.alpha = 0
             }
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
         } else {
             locationView.snp.remakeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 + percentage))
@@ -81,6 +87,7 @@ extension MainViewController: UITableViewDelegate {
            
             }
             cell?.alpha = 1 + percentage
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
         }
         
         lastContentOffset = scrollView.contentOffset.y
@@ -91,7 +98,7 @@ extension MainViewController: UITableViewDelegate {
         case 0:
             return 400
         case 1:
-            return 580
+            return 550
         default:
             return UITableView.automaticDimension
         }
@@ -133,11 +140,11 @@ extension MainViewController: UITableViewDataSource {
         case 0:
             guard let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.temperature, for: indexPath) as? TemperatureTableViewCell
             else { return UITableViewCell() }
-            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
             return cell
         case 1:
             guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
-            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
             return cell
         default:
             return UITableViewCell()

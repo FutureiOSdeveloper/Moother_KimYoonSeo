@@ -15,8 +15,8 @@ class MainPageViewController: UIViewController {
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     private let pageControl = UIPageControl().then {
-        $0.currentPageIndicatorTintColor = .black
-        $0.pageIndicatorTintColor = .black.withAlphaComponent(0.3)
+        $0.currentPageIndicatorTintColor = .white
+        $0.pageIndicatorTintColor = .white.withAlphaComponent(0.3)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     

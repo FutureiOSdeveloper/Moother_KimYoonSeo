@@ -15,15 +15,18 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
     private let timeLabel = UILabel().then {
         $0.text = "지금"
         $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .white
     }
     
     private let weatherImageView = UIImageView().then {
         $0.image = UIImage(systemName: "cloud.rain.fill")
+        $0.tintColor = .white
     }
     
     private let temperatureLabel = UILabel().then {
         $0.text = "26"
         $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .white
     }
     
     private let vStackView = UIStackView().then {
@@ -35,6 +38,7 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
     private let percentLabel = UILabel().then {
         $0.text = "80%"
         $0.font = .systemFont(ofSize: 6)
+        $0.textColor = .white
     }
     
     override init(frame: CGRect) {
@@ -47,6 +51,8 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
     }
     
     private func layoutDailyWeatherCollectionViewCell() {
+        backgroundColor = .clear
+        
         contentView.addSubviews(vStackView)
         vStackView.addArrangedSubviews(timeLabel, weatherImageView, temperatureLabel)
         
