@@ -17,6 +17,10 @@ class MainViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
+    private let backgroundImageView = UIImageView().then {
+        $0.image = UIImage(named: "backImage")
+    }
+    
     private let spacingView = UIView()
     private let locationView = LocationView()
     private let temperatureView = TemperatureView()
@@ -28,10 +32,12 @@ class MainViewController: UIViewController {
     }
     
     private func layoutMainViewController() {
-        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 86 / 255, alpha: 1)
-        
-        view.addSubviews(locationView, temperatureView, mainTableView)
+        view.addSubviews(backgroundImageView, locationView, temperatureView, mainTableView)
 
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         locationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview()
@@ -41,7 +47,7 @@ class MainViewController: UIViewController {
         temperatureView.snp.makeConstraints {
             $0.top.equalTo(locationView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(300)
+            $0.height.equalTo(250)
         }
         
         mainTableView.snp.makeConstraints {
@@ -72,35 +78,33 @@ extension MainViewController: UITableViewDelegate {
         
         guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
         
-        if percentage > 0 {
-            if 40 * (1 - percentage) > 0 {
-                locationView.snp.remakeConstraints {
-                    $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
-                    $0.leading.trailing.equalToSuperview()
-                    $0.height.equalTo(100)
-                }
-                temperatureView.setAlphaStackView(alpha: 1 - percentage)
-                temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
-                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
-            } else {
-                temperatureView.setAlphaStackView(alpha: 0)
-                temperatureView.setAlphaTemperatureLabel(alpha: 0)
-                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
-            }
-        } else if lastContentOffset > 0 {
-            locationView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 + percentage))
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(100)
-           
-            }
-            temperatureView.setAlphaStackView(alpha: 1 + percentage)
-            temperatureView.setAlphaTemperatureLabel(alpha: 1 + percentage)
+        //아래로 당겼을 때
+        if lastContentOffset <= 0 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
-        } else {
             temperatureView.setAlphaStackView(alpha: 1)
             temperatureView.setAlphaTemperatureLabel(alpha: 1)
-            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
+        }
+        //용인시 고정후
+        else if lastContentOffset > 0 && lastContentOffset < 40 {
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
+            locationView.snp.remakeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(100)
+            }
+            temperatureView.setAlphaStackView(alpha: 1 - percentage * 2)
+            temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
+        } else if lastContentOffset >= 40 && lastContentOffset < 80 {
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
+            locationView.snp.remakeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(100)
+            }
+            temperatureView.setAlphaStackView(alpha: 0)
+            temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
+        } else {
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
         }
         
         lastContentOffset = scrollView.contentOffset.y
@@ -152,9 +156,9 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.temperature, for: indexPath) as? TemperatureTableViewCell
-            else { return UITableViewCell() }
+            let cell = UITableViewCell()
             cell.selectionStyle = .none
+            cell.backgroundColor = .clear
             return cell
         case 1:
             guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
