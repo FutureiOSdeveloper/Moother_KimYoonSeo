@@ -29,9 +29,9 @@ class MainViewController: UIViewController {
         view.addSubviews(locationView, mainTableView)
 
         locationView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(160)
+            $0.height.equalTo(100)
         }
         
         mainTableView.snp.makeConstraints {
@@ -51,46 +51,45 @@ class MainViewController: UIViewController {
         mainTableView.register(WeekTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
     }
     
+    private var lastContentOffset: CGFloat = 0
+    
 }
 
 extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
         
+        let percentage = lastContentOffset / 292 * 3.5
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = mainTableView.cellForRow(at: indexPath)
         
-        if translation.y > 0 {
-            if 100 + translation.y < 160 && locationView.frame.height < 140 {
+        if percentage > 0 {
+            if 40 * (1 - percentage) > 0 {
                 locationView.snp.remakeConstraints {
-                    $0.top.equalTo(view.safeAreaLayoutGuide)
+                    $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
                     $0.leading.trailing.equalToSuperview()
-                    $0.height.equalTo(100 + translation.y)
+                    $0.height.equalTo(100)
                 }
-                cell?.contentView.alpha = translation.y / 60
+                cell?.alpha = 1 - percentage
             } else {
-                cell?.contentView.alpha = 1
+                cell?.alpha = 0
             }
         } else {
-            if 160 + translation.y > 100 && locationView.frame.height > 110 {
-                locationView.snp.remakeConstraints {
-                    $0.top.equalTo(view.safeAreaLayoutGuide)
-                    $0.leading.trailing.equalToSuperview()
-                    $0.height.equalTo(160 + translation.y)
-                }
-                cell?.contentView.alpha = 1 + translation.y / 60
-            } else {
-                cell?.contentView.alpha = 0
+            locationView.snp.remakeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 + percentage))
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(100)
+           
             }
+            cell?.alpha = 1 + percentage
         }
-        print(translation.y)
         
+        lastContentOffset = scrollView.contentOffset.y
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 350
+            return 400
         case 1:
             return 580
         default:

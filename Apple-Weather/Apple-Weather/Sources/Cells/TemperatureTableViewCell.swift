@@ -47,7 +47,7 @@ class TemperatureTableViewCell: UITableViewCell {
         
         hStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-50)
+            $0.bottom.equalToSuperview().offset(-140)
         }
         
         temperatureLabel.snp.makeConstraints {
