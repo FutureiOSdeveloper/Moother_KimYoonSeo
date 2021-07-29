@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 class LocationView: UIView {
     
     private let locationLabel = UILabel().then {

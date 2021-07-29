@@ -48,7 +48,8 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         addSubviews(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.height.equalTo(120)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 }

@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
     
     private let spacingView = UIView()
     private let locationView = LocationView()
+    private let temperatureView = TemperatureView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +28,20 @@ class MainViewController: UIViewController {
     }
     
     private func layoutMainViewController() {
-        view.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 86/255, alpha: 1)
+        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 86 / 255, alpha: 1)
         
-        view.addSubviews(locationView, mainTableView)
+        view.addSubviews(locationView, temperatureView, mainTableView)
 
         locationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(100)
+        }
+        
+        temperatureView.snp.makeConstraints {
+            $0.top.equalTo(locationView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(300)
         }
         
         mainTableView.snp.makeConstraints {
@@ -61,8 +68,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let percentage = lastContentOffset / 292 * 3.5
-        let cell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0))
+        let percentage = lastContentOffset / 292 * 4
         
         guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
         
@@ -73,24 +79,32 @@ extension MainViewController: UITableViewDelegate {
                     $0.leading.trailing.equalToSuperview()
                     $0.height.equalTo(100)
                 }
-                cell?.alpha = 1 - percentage
-                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
+                temperatureView.setAlphaStackView(alpha: 1 - percentage)
+                temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
+                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
             } else {
-                cell?.alpha = 0
+                temperatureView.setAlphaStackView(alpha: 0)
+                temperatureView.setAlphaTemperatureLabel(alpha: 0)
+                weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             }
-            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
-        } else {
+        } else if lastContentOffset > 0 {
             locationView.snp.remakeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 + percentage))
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(100)
            
             }
-            cell?.alpha = 1 + percentage
+            temperatureView.setAlphaStackView(alpha: 1 + percentage)
+            temperatureView.setAlphaTemperatureLabel(alpha: 1 + percentage)
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
+        } else {
+            temperatureView.setAlphaStackView(alpha: 1)
+            temperatureView.setAlphaTemperatureLabel(alpha: 1)
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
         }
         
         lastContentOffset = scrollView.contentOffset.y
+        print(lastContentOffset)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -1,8 +1,8 @@
 //
-//  TemperatureTableViewCell.swift
+//  TemperatureView.swift
 //  Apple-Weather
 //
-//  Created by 김윤서 on 2021/07/27.
+//  Created by 김윤서 on 2021/07/30.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TemperatureTableViewCell: UITableViewCell {
+class TemperatureView: UIView {
     
     private let temperatureLabel = UILabel().then {
         $0.text = "34"
@@ -35,31 +35,36 @@ class TemperatureTableViewCell: UITableViewCell {
         $0.spacing = 10
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-//        layoutTemperatureTableViewCell()
+    public init() {
+        super.init(frame: CGRect.zero)
+        layoutLocationSectionHeaderView()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func layoutTemperatureTableViewCell() {
-        backgroundColor = .clear
-        
-        contentView.addSubviews(temperatureLabel, hStackView)
+    private func layoutLocationSectionHeaderView() {
+        addSubviews(temperatureLabel, hStackView)
         hStackView.addArrangedSubviews(highTemperatureLabel, lowTemperatureLabel)
-        
-        hStackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-140)
-        }
         
         temperatureLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(hStackView.snp.top)
+            $0.top.equalToSuperview()
         }
         
+        hStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+        }
+        
+    }
+    
+    public func setAlphaStackView(alpha: CGFloat) {
+        hStackView.alpha = alpha
+    }
+    
+    public func setAlphaTemperatureLabel(alpha: CGFloat) {
+        temperatureLabel.alpha = alpha
     }
 }
