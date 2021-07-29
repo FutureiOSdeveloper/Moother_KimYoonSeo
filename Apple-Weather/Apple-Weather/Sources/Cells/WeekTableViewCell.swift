@@ -54,6 +54,10 @@ class WeekTableViewCell: UITableViewCell {
 
 extension WeekTableViewCell: UITableViewDelegate {
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.bounces = scrollView.contentOffset.y > 0
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:

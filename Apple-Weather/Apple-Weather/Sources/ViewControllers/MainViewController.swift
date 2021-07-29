@@ -78,14 +78,13 @@ extension MainViewController: UITableViewDelegate {
         
         guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
         
-        //아래로 당겼을 때
         if lastContentOffset <= 0 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
             temperatureView.setAlphaStackView(alpha: 1)
             temperatureView.setAlphaTemperatureLabel(alpha: 1)
-        }
-        //용인시 고정후
-        else if lastContentOffset > 0 && lastContentOffset < 40 {
+            scrollView.bounces = true
+            
+        } else if lastContentOffset > 0 && lastContentOffset < 40 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             locationView.snp.remakeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
@@ -94,6 +93,9 @@ extension MainViewController: UITableViewDelegate {
             }
             temperatureView.setAlphaStackView(alpha: 1 - percentage * 2)
             temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
+            
+            scrollView.bounces = true
+            
         } else if lastContentOffset >= 40 && lastContentOffset < 80 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             locationView.snp.remakeConstraints {
@@ -103,8 +105,14 @@ extension MainViewController: UITableViewDelegate {
             }
             temperatureView.setAlphaStackView(alpha: 0)
             temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
+            
+            scrollView.bounces = false
         } else {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
+            temperatureView.setAlphaStackView(alpha: 0)
+            temperatureView.setAlphaTemperatureLabel(alpha: 0)
+            
+            scrollView.bounces = false
         }
         
         lastContentOffset = scrollView.contentOffset.y
