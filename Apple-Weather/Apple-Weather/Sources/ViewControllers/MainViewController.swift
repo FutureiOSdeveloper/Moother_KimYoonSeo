@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         }
         
         locationView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 )
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(100)
         }
@@ -73,8 +73,9 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(Constants.Ratio.iPhone11)
         
-        let percentage = lastContentOffset / 292 * 4
+        let percentage = lastContentOffset / 292 * 4 * Constants.Ratio.iPhone11
         
         guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
         
@@ -84,10 +85,10 @@ extension MainViewController: UITableViewDelegate {
             temperatureView.setAlphaTemperatureLabel(alpha: 1)
             scrollView.bounces = true
             
-        } else if lastContentOffset > 0 && lastContentOffset < 40 {
+        } else if lastContentOffset > 0 && lastContentOffset < 50 * Constants.Ratio.iPhone11 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             locationView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 * (1 - percentage))
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(100)
             }
@@ -96,10 +97,10 @@ extension MainViewController: UITableViewDelegate {
             
             scrollView.bounces = true
             
-        } else if lastContentOffset >= 40 && lastContentOffset < 80 {
-            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
+        } else if lastContentOffset >= 50 * Constants.Ratio.iPhone11 && lastContentOffset < 80 * Constants.Ratio.iPhone11 {
+            weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
             locationView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).offset(40 * (1 - percentage))
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 * (1 - percentage))
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(100)
             }
@@ -122,9 +123,9 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 400
+            return 400 * Constants.Ratio.iPhone11
         case 1:
-            return 550
+            return 530 * Constants.Ratio.iPhone11
         default:
             return UITableView.automaticDimension
         }
@@ -182,7 +183,7 @@ extension MainViewController: UITableViewDataSource {
         case 0:
             return 0
         case 1:
-            return 120
+            return 120 * Constants.Ratio.iPhone11
         default:
             return UITableView.automaticDimension
         }

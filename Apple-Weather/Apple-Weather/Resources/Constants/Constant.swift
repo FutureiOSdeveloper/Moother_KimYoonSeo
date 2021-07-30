@@ -5,6 +5,8 @@
 //  Created by 김윤서 on 2021/07/27.
 //
 
+import UIKit
+
 struct Constants {
     struct TableViewHeaders {
         static let dailyWeather: String = "DailyWeatherHeaderView"
@@ -28,5 +30,9 @@ struct Constants {
     
     struct Spacing {
         static let s20: Int = 20
+    }
+    
+    struct Ratio {
+        static let iPhone11: CGFloat = UIScreen.main.bounds.height/896
     }
 }
