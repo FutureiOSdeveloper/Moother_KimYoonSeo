@@ -16,6 +16,7 @@ class WeekTableViewCell: UITableViewCell {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
         $0.isScrollEnabled = false
+        $0.separatorStyle = .none
     }
     
     public func setEnabledScroll(isScrollEnabled: Bool) {

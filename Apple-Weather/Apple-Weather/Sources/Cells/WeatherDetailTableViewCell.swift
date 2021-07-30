@@ -43,6 +43,10 @@ class WeatherDetailTableViewCell: UITableViewCell {
     private let rightStackView = UIStackView().then {
         $0.axis = .vertical
     }
+    
+    private let seperatorBottomView = UIView().then {
+        $0.backgroundColor = .white
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -56,7 +60,7 @@ class WeatherDetailTableViewCell: UITableViewCell {
     private func layoutWeatherDetailTableViewCell() {
         backgroundColor = .clear
         
-        contentView.addSubviews(leftStackView, rightStackView)
+        contentView.addSubviews(leftStackView, rightStackView, seperatorBottomView)
         leftStackView.addArrangedSubviews(leftLabel, leftContentLabel)
         rightStackView.addArrangedSubviews(rightLabel, rightContentLabel)
         
@@ -72,6 +76,12 @@ class WeatherDetailTableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview().offset(-5)
             $0.leading.equalTo(contentView.snp.centerX)
             $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
+        }
+        
+        seperatorBottomView.snp.makeConstraints {  $0.leading.equalToSuperview().offset(Constants.Spacing.s20)
+            $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(Constants.Seperator.height)
         }
     }
 }

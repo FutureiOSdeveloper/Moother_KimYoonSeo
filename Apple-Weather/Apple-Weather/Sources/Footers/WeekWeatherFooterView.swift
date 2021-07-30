@@ -18,7 +18,15 @@ class WeekWeatherFooterView: UITableViewHeaderFooterView {
         $0.numberOfLines = 0
         $0.textColor = .white
     }
-  
+    
+    private let seperatorTopView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let seperatorBottomView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         layoutWeekWeatherFooterView()
@@ -29,13 +37,23 @@ class WeekWeatherFooterView: UITableViewHeaderFooterView {
     }
     
     private func layoutWeekWeatherFooterView() {
-        addSubviews(label)
+        addSubviews(label, seperatorTopView, seperatorBottomView)
         
         label.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.top.equalToSuperview().offset(10)
             $0.bottom.equalToSuperview().offset(-10)
+        }
+        
+        seperatorTopView.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.Seperator.height)
+        }
+        
+        seperatorBottomView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.Seperator.height)
         }
         
     }

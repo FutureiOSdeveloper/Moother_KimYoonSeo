@@ -23,6 +23,14 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         $0.collectionViewLayout = layout
     }
     
+    private let seperatorTopView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let seperatorBottomView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         initCollectionView()
@@ -45,11 +53,21 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         let backgroundView = UIView(frame: .zero)
         self.backgroundView = backgroundView
         
-        addSubviews(collectionView)
+        addSubviews(collectionView, seperatorTopView, seperatorBottomView)
         
         collectionView.snp.makeConstraints {
             $0.height.equalTo(120)
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        seperatorTopView.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.Seperator.height)
+        }
+        
+        seperatorBottomView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.Seperator.height)
         }
     }
 }

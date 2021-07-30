@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     private let mainTableView = UITableView(frame: .zero, style: .plain).then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
+        $0.separatorStyle = .none
     }
     
     private let backgroundImageView = UIImageView().then {
