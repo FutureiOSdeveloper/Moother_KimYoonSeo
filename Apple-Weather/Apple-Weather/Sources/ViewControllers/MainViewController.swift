@@ -159,6 +159,6 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-       return 400
+       return UIScreen.main.bounds.height / 2
     }
 }

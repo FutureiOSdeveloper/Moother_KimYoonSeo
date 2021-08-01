@@ -19,16 +19,19 @@ class MainPageViewController: UIViewController {
         $0.pageIndicatorTintColor = .white.withAlphaComponent(0.3)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    private let pageControlBarView = UIView().then {
+
+    private let pageControlToolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 100)).then {
+        $0.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        $0.backgroundColor = .clear
+        
         let topLineView = UIView().then {
-            $0.backgroundColor = .white
+          $0.backgroundColor = .white
         }
         
         $0.addSubview(topLineView)
         
         topLineView.snp.makeConstraints {
-            $0.height.equalTo(1)
+            $0.height.equalTo(Constants.Seperator.height)
             $0.leading.trailing.equalToSuperview()
             $0.top.equalToSuperview()
         }
@@ -43,7 +46,8 @@ class MainPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setPageViewController()
-        setPageControlBarView()
+        setPageControlBar()
+       
     }
     
     private func setPageViewController() {
@@ -58,24 +62,18 @@ class MainPageViewController: UIViewController {
        pageViewController.didMove(toParent: self)
    }
     
-    private func setPageControlBarView() {
-        
-        view.addSubview(pageControlBarView)
-        
-        pageControlBarView.snp.makeConstraints {
-            $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(70)
-        }
+    private func setPageControlBar() {
         
         pageControl.numberOfPages = 3
+
+        let pageControl = UIBarButtonItem(customView: pageControl)
        
-        pageControlBarView.addSubview(pageControl)
+        pageControlToolBar.setItems([pageControl], animated: true)
         
-        pageControl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(10)
-            $0.width.equalTo(150)
-            $0.height.equalTo(20)
+        view.addSubviews(pageControlToolBar)
+        pageControlToolBar.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalToSuperview()
+            $0.height.equalTo(70)
         }
     }
     
