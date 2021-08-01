@@ -38,13 +38,17 @@ class WeatherDetailTableViewCell: UITableViewCell {
     
     private let leftStackView = UIStackView().then {
         $0.axis = .vertical
+        $0.alignment = .leading
+        $0.distribution = .fillProportionally
     }
     
     private let rightStackView = UIStackView().then {
         $0.axis = .vertical
+        $0.alignment = .leading
+        $0.distribution = .fillProportionally
     }
     
-    private let seperatorBottomView = UIView().then {
+    private let seperatorTopView = UIView().then {
         $0.backgroundColor = .white
     }
 
@@ -60,7 +64,7 @@ class WeatherDetailTableViewCell: UITableViewCell {
     private func layoutWeatherDetailTableViewCell() {
         backgroundColor = .clear
         
-        contentView.addSubviews(leftStackView, rightStackView, seperatorBottomView)
+        contentView.addSubviews(leftStackView, rightStackView, seperatorTopView)
         leftStackView.addArrangedSubviews(leftLabel, leftContentLabel)
         rightStackView.addArrangedSubviews(rightLabel, rightContentLabel)
         
@@ -78,7 +82,7 @@ class WeatherDetailTableViewCell: UITableViewCell {
             $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
         }
         
-        seperatorBottomView.snp.makeConstraints {  $0.leading.equalToSuperview().offset(Constants.Spacing.s20)
+        seperatorTopView.snp.makeConstraints {  $0.leading.equalToSuperview().offset(Constants.Spacing.s20)
             $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
             $0.bottom.equalToSuperview()
             $0.height.equalTo(Constants.Seperator.height)

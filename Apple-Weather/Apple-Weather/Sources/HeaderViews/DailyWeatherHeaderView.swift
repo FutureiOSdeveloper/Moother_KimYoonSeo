@@ -60,13 +60,14 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        seperatorTopView.snp.makeConstraints {
+        seperatorBottomView.snp.makeConstraints {
             $0.bottom.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.Seperator.height)
         }
         
-        seperatorBottomView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+        seperatorTopView.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.top)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.Seperator.height)
         }
     }

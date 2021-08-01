@@ -12,7 +12,7 @@ import Then
 
 class MainViewController: UIViewController {
     
-    private let mainTableView = UITableView(frame: .zero, style: .plain).then {
+    private let mainTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
         $0.separatorStyle = .none
@@ -76,9 +76,9 @@ extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(Constants.Ratio.iPhone11)
         
-        let percentage = lastContentOffset / 292 * 4 * Constants.Ratio.iPhone11
+        let percentage = lastContentOffset / 292 * 4
         
-        guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? WeekTableViewCell else { return }
+        guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WeekTableViewCell else { return }
         
         if lastContentOffset <= 0 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
@@ -86,10 +86,10 @@ extension MainViewController: UITableViewDelegate {
             temperatureView.setAlphaTemperatureLabel(alpha: 1)
             scrollView.bounces = true
             
-        } else if lastContentOffset > 0 && lastContentOffset < 50 * Constants.Ratio.iPhone11 {
+        } else if lastContentOffset > 0 && lastContentOffset < 50 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
             locationView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 * (1 - percentage))
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * (1 - percentage))
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(100)
             }
@@ -98,10 +98,10 @@ extension MainViewController: UITableViewDelegate {
             
             scrollView.bounces = true
             
-        } else if lastContentOffset >= 50 * Constants.Ratio.iPhone11 && lastContentOffset < 80 * Constants.Ratio.iPhone11 {
+        } else if lastContentOffset >= 50 && lastContentOffset < 80 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
             locationView.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 * (1 - percentage))
+                $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * (1 - percentage))
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(100)
             }
@@ -118,75 +118,47 @@ extension MainViewController: UITableViewDelegate {
         }
         
         lastContentOffset = scrollView.contentOffset.y
-        print(lastContentOffset)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return 400 * Constants.Ratio.iPhone11
-        case 1:
-            return 530 * Constants.Ratio.iPhone11
-        default:
-            return UITableView.automaticDimension
-        }
+       return 560
     }
     
 }
 
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        if section == 1 {
-            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewHeaders.dailyWeather) as? DailyWeatherHeaderView
-            else {
-                return UIView()
-            }
-        
-            return header
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewHeaders.dailyWeather) as? DailyWeatherHeaderView
+        else {
+            return UIView()
         }
+    
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            return 1
-        default:
-            return 0
-        }
+       return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = UITableViewCell()
-            cell.selectionStyle = .none
-            cell.backgroundColor = .clear
-            return cell
-        case 1:
-            guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
-            cell.selectionStyle = .none
-            return cell
-        default:
-            return UITableViewCell()
-        }
+        guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
+        cell.selectionStyle = .none
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            return 0
-        case 1:
-            return 120 * Constants.Ratio.iPhone11
-        default:
-            return UITableView.automaticDimension
-        }
+       return 400
     }
 }
