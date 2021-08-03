@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         }
         
         locationView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * Constants.Ratio.iPhone11 )
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(50)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(100)
         }
@@ -74,9 +74,9 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(Constants.Ratio.iPhone11)
         
         let percentage = lastContentOffset / 292 * 4
+        let scrollRatio = abs(lastContentOffset / UIScreen.main.bounds.height)
         
         guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WeekTableViewCell else { return }
         
@@ -86,24 +86,20 @@ extension MainViewController: UITableViewDelegate {
             temperatureView.setAlphaTemperatureLabel(alpha: 1)
             scrollView.bounces = true
             
-        } else if lastContentOffset > 0 && lastContentOffset < 50 {
+        } else if scrollRatio > 0 && scrollRatio < 0.04 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: true)
-            locationView.snp.remakeConstraints {
+            locationView.snp.updateConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * (1 - percentage))
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(100)
             }
             temperatureView.setAlphaStackView(alpha: 1 - percentage * 2)
             temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
             
             scrollView.bounces = true
             
-        } else if lastContentOffset >= 50 && lastContentOffset < 80 {
+        } else if scrollRatio >= 0.04 && lastContentOffset < 0.3 {
             weekWeatherTableViewCell.setEnabledScroll(isScrollEnabled: false)
-            locationView.snp.remakeConstraints {
+            locationView.snp.updateConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide).offset(50 * (1 - percentage))
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(100)
             }
             temperatureView.setAlphaStackView(alpha: 0)
             temperatureView.setAlphaTemperatureLabel(alpha: 1 - percentage)
@@ -118,10 +114,13 @@ extension MainViewController: UITableViewDelegate {
         }
         
         lastContentOffset = scrollView.contentOffset.y
+        
+//        print(UIScreen.main.bounds.height)
+        print(abs(lastContentOffset/UIScreen.main.bounds.height))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 560
+       return 530
     }
     
 }
