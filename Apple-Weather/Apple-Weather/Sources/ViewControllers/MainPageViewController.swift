@@ -12,29 +12,24 @@ import Then
 
 class MainPageViewController: UIViewController {
     
+    private var viewControllerList: [UIViewController] = []
+    
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     private let pageControl = UIPageControl().then {
         $0.currentPageIndicatorTintColor = .white
         $0.pageIndicatorTintColor = .white.withAlphaComponent(0.3)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
     }
 
     private let backgroundImageView = UIImageView().then {
         $0.image = UIImage(named: "backImage")
     }
-
-    private func instantiateViewController(index: Int) -> UIViewController {
-       let vc = MainViewController()
-       vc.view.tag = index
-       return vc
-    }
     
     private let seperatorView = UIView().then {
         $0.backgroundColor = .white
     }
-    
-    private var viewControllerList: [UIViewController] = []
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -44,11 +39,8 @@ class MainPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutPageViewController()
-        
         setPageViewController()
-        
         setViewControllerList()
-        
         setPageControlBar()
        
     }
@@ -57,7 +49,7 @@ class MainPageViewController: UIViewController {
         pageViewController.dataSource = self
         pageViewController.delegate = self
          
-        view.addSubviews(backgroundImageView, seperatorView, pageViewController.view)
+        view.addSubviews(backgroundImageView, seperatorView, pageViewController.view, leftButton)
         backgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -81,16 +73,29 @@ class MainPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
    }
     
+    private let leftButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "safari"), for: .normal)
+        $0.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        $0.snp.makeConstraints {
+            $0.height.width.equalTo(30)
+        }
+    }
+    
     private func setPageControlBar() {
-        pageControl.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
+        leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        
+        let leftIcon = UIBarButtonItem(customView: leftButton)
+        let rightIcon = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         let pageControl = UIBarButtonItem(customView: pageControl)
+        
         navigationController?.isToolbarHidden = false
         navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         navigationController?.toolbar.backgroundColor = .clear
-        navigationController?.toolbar.clipsToBounds = true
-
-        toolbarItems = [pageControl]
+        navigationController?.toolbar.tintColor = .white
+        
+        toolbarItems = [leftIcon, flexibleSpace, pageControl, flexibleSpace, rightIcon]
         
     }
     
@@ -101,6 +106,12 @@ class MainPageViewController: UIViewController {
         
         pageControl.numberOfPages = viewControllerList.count
         pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
+    }
+    
+    private func instantiateViewController(index: Int) -> UIViewController {
+       let vc = MainViewController()
+       vc.view.tag = index
+       return vc
     }
     
 }
@@ -136,8 +147,19 @@ extension MainPageViewController: UIPageViewControllerDelegate {
        }
     }
     
+}
+
+extension MainPageViewController {
     @objc
     func pageControltapped(_ sender: UIPageControl) {
         pageViewController.setViewControllers([viewControllerList[sender.currentPage]], direction: .forward, animated: true, completion: nil)
     }
+    
+    @objc
+    func tapLeftButton() {
+        if let url = URL(string: "https://weather.com/ko-KR/weather/today/l/KSXX0037:1:KS?Goto=Redirected") {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+
 }
