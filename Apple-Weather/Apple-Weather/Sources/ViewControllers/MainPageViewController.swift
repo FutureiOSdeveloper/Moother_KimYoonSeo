@@ -20,61 +20,87 @@ class MainPageViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private let pageControlToolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 100)).then {
-        $0.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
-        $0.backgroundColor = .clear
-        
-        let topLineView = UIView().then {
-          $0.backgroundColor = .white
-        }
-        
-        $0.addSubview(topLineView)
-        
-        topLineView.snp.makeConstraints {
-            $0.height.equalTo(Constants.Seperator.height)
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview()
-        }
+    private let backgroundImageView = UIImageView().then {
+        $0.image = UIImage(named: "backImage")
     }
-    
+
     private func instantiateViewController(index: Int) -> UIViewController {
        let vc = MainViewController()
        vc.view.tag = index
        return vc
     }
+    
+    private let seperatorView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private var viewControllerList: [UIViewController] = []
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLayoutPageViewController()
+        
         setPageViewController()
+        
+        setViewControllerList()
+        
         setPageControlBar()
        
     }
     
+    private func setLayoutPageViewController() {
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+         
+        view.addSubviews(backgroundImageView, seperatorView, pageViewController.view)
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        seperatorView.snp.makeConstraints {
+            $0.height.equalTo(Constants.Seperator.height)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+
+        addChild(pageViewController)
+
+        pageViewController.view.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
     private func setPageViewController() {
-       pageViewController.dataSource = self
-       pageViewController.delegate = self
-       
-       let firstViewController = instantiateViewController(index: 0)
-       pageViewController.setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
-       
-       addChild(pageViewController)
-       view.addSubview(pageViewController.view)
-       pageViewController.didMove(toParent: self)
+        pageViewController.setViewControllers([instantiateViewController(index: 0)], direction: .forward, animated: true, completion: nil)
+        pageViewController.didMove(toParent: self)
    }
     
     private func setPageControlBar() {
+        pageControl.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
         
-        pageControl.numberOfPages = 3
-
         let pageControl = UIBarButtonItem(customView: pageControl)
-       
-        pageControlToolBar.setItems([pageControl], animated: true)
+        navigationController?.isToolbarHidden = false
+        navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        navigationController?.toolbar.backgroundColor = .clear
+        navigationController?.toolbar.clipsToBounds = true
+
+        toolbarItems = [pageControl]
         
-        view.addSubviews(pageControlToolBar)
-        pageControlToolBar.snp.makeConstraints {
-            $0.bottom.leading.trailing.equalToSuperview()
-            $0.height.equalTo(70)
-        }
+    }
+    
+    private func setViewControllerList() {
+        viewControllerList.append(instantiateViewController(index: 0))
+        viewControllerList.append(instantiateViewController(index: 1))
+        viewControllerList.append(instantiateViewController(index: 2))
+        
+        pageControl.numberOfPages = viewControllerList.count
+        pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
     }
     
 }
@@ -86,7 +112,7 @@ extension MainPageViewController: UIPageViewControllerDataSource {
 
         let nextIndex = index > 0 ? index - 1 : 3 - 1
 
-        let nextVC = instantiateViewController(index: nextIndex)
+        let nextVC = viewControllerList[nextIndex]
         return nextVC
     }
     
@@ -94,7 +120,7 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
         
         let nextIndex = (index + 1) % 3
-        let nextVC = instantiateViewController(index: nextIndex)
+        let nextVC = viewControllerList[nextIndex]
         
         return nextVC
     }
@@ -102,14 +128,19 @@ extension MainPageViewController: UIPageViewControllerDataSource {
 }
 
 extension MainPageViewController: UIPageViewControllerDelegate {
-       func pageViewController(_ pageViewController: UIPageViewController,
-                               didFinishAnimating finished: Bool,
-                               previousViewControllers: [UIViewController],
-                               transitionCompleted completed: Bool) {
-           guard completed else { return }
-           
-           if let vc = pageViewController.viewControllers?.first {
-               pageControl.currentPage = vc.view.tag
-           }
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+       guard completed else { return }
+       
+       if let vc = pageViewController.viewControllers?.first {
+           pageControl.currentPage = vc.view.tag
        }
+    }
+    
+    @objc
+    func pageControltapped(_ sender: Any) {
+    
+        pageViewController.setViewControllers([viewControllerList[pageControl.currentPage]], direction: .forward, animated: true, completion: nil)
+        print(pageControl.currentPage)
+        print(viewControllerList[pageControl.currentPage].view.tag)
+    }
 }

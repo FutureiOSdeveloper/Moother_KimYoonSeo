@@ -18,10 +18,6 @@ class MainViewController: UIViewController {
         $0.separatorStyle = .none
     }
     
-    private let backgroundImageView = UIImageView().then {
-        $0.image = UIImage(named: "backImage")
-    }
-    
     private let locationLabel = UILabel().then {
         $0.text = "용인시"
         $0.font = .systemFont(ofSize: 28)
@@ -72,24 +68,20 @@ class MainViewController: UIViewController {
     }
     
     private func setLayoutMainViewController() {
-        view.addSubviews(backgroundImageView, locationStackView, mainTableView)
+        view.backgroundColor = .clear
+        view.addSubviews(locationStackView, mainTableView)
         
         locationStackView.addArrangedSubviews(locationLabel, weatherLabel, temperatureLabel, temperatureStackView)
         temperatureStackView.addArrangedSubviews(highTemperatureLabel, lowTemperatureLabel)
         
         locationStackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(locationViewTopConstraint)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(locationViewTopConstraint)
             $0.leading.trailing.equalToSuperview()
         }
-       
-        backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+
         mainTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-70)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.trailing.bottom.leading.equalToSuperview()
         }
         
     }
