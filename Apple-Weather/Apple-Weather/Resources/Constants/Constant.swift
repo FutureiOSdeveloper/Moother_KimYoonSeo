@@ -33,7 +33,7 @@ struct Constants {
     }
     
     struct Ratio {
-        static let iPhone11: CGFloat = UIScreen.main.bounds.height / 896
+        static let iPhone12Pro: CGFloat = UIScreen.main.bounds.height / 844
     }
     
     struct Seperator {
