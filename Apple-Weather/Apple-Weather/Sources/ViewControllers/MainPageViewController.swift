@@ -137,10 +137,7 @@ extension MainPageViewController: UIPageViewControllerDelegate {
     }
     
     @objc
-    func pageControltapped(_ sender: Any) {
-    
-        pageViewController.setViewControllers([viewControllerList[pageControl.currentPage]], direction: .forward, animated: true, completion: nil)
-        print(pageControl.currentPage)
-        print(viewControllerList[pageControl.currentPage].view.tag)
+    func pageControltapped(_ sender: UIPageControl) {
+        pageViewController.setViewControllers([viewControllerList[sender.currentPage]], direction: .forward, animated: true, completion: nil)
     }
 }
