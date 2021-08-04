@@ -20,7 +20,6 @@ class MainPageViewController: UIViewController {
         $0.currentPageIndicatorTintColor = .white
         $0.pageIndicatorTintColor = .white.withAlphaComponent(0.3)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
     }
 
     private let backgroundImageView = UIImageView().then {
@@ -42,6 +41,7 @@ class MainPageViewController: UIViewController {
         setPageViewController()
         setViewControllerList()
         setPageControlBar()
+        setTargets()
        
     }
     
@@ -75,17 +75,21 @@ class MainPageViewController: UIViewController {
     
     private let leftButton = UIButton().then {
         $0.setImage(UIImage(systemName: "safari"), for: .normal)
-        $0.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        $0.snp.makeConstraints {
-            $0.height.width.equalTo(30)
-        }
+    }
+    
+    private let rightButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "list.dash"), for: .normal)
+    }
+    
+    private func setTargets() {
+        leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        rightButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        pageControl.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
     }
     
     private func setPageControlBar() {
-        leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        
         let leftIcon = UIBarButtonItem(customView: leftButton)
-        let rightIcon = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: nil, action: nil)
+        let rightIcon = UIBarButtonItem(customView: rightButton)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         let pageControl = UIBarButtonItem(customView: pageControl)
