@@ -99,8 +99,7 @@ class MainViewController: UIViewController {
         mainTableView.dataSource = self
         
         mainTableView.register(DailyWeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewHeaders.dailyWeather)
-        mainTableView.register(TemperatureTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.temperature)
-        mainTableView.register(WeekTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
+        mainTableView.register(WeekContainerTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
     }
     
     private var lastContentOffset: CGFloat = 0
@@ -112,7 +111,7 @@ extension MainViewController: UITableViewDelegate {
         
         let scrollRatio = abs(lastContentOffset / UIScreen.main.bounds.height) * 2.5
         
-        guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WeekTableViewCell else { return }
+        guard let weekWeatherTableViewCell = mainTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? WeekContainerTableViewCell else { return }
         
         if lastContentOffset <= 0 {
             locationStackView.snp.updateConstraints {
@@ -152,8 +151,6 @@ extension MainViewController: UITableViewDelegate {
         
         lastContentOffset = scrollView.contentOffset.y
         
-//        print(UIScreen.main.bounds.height)
-        print(UIScreen.main.bounds.height)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -193,7 +190,7 @@ extension MainViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekTableViewCell else { return UITableViewCell() }
+        guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekContainerTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         return cell
     }

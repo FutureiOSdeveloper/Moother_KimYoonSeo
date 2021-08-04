@@ -1,5 +1,5 @@
 //
-//  WeekTableViewCell.swift
+//  WeekContainerTableViewCell.swift
 //  Apple-Weather
 //
 //  Created by 김윤서 on 2021/07/28.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class WeekTableViewCell: UITableViewCell {
+class WeekContainerTableViewCell: UITableViewCell {
     
     private let weekWeatherTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.backgroundColor = .clear
@@ -53,7 +53,7 @@ class WeekTableViewCell: UITableViewCell {
     }
 }
 
-extension WeekTableViewCell: UITableViewDelegate {
+extension WeekContainerTableViewCell: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollView.bounces = scrollView.contentOffset.y > 0
@@ -111,7 +111,7 @@ extension WeekTableViewCell: UITableViewDelegate {
     }
 }
 
-extension WeekTableViewCell: UITableViewDataSource {
+extension WeekContainerTableViewCell: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }

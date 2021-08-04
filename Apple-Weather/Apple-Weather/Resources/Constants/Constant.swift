@@ -19,7 +19,7 @@ struct Constants {
     
     struct TableViewCells {
         static let temperature: String = "TemperatureTableViewCell"
-        static let week: String = "WeekTableViewCell"
+        static let week: String = "WeekContainerTableViewCell"
         static let weekWeather: String = "WeekWeatherTableViewCell"
         static let weatherDetail: String = "WeatherDetailTableViewCell"
     }
