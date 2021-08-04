@@ -16,8 +16,8 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: 60, height: 120)
-        
+        layout.itemSize = CGSize(width: 60, height: 110 * Constants.Ratio.iPhone12Pro)
+        dump(layout)
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.collectionViewLayout = layout
@@ -56,7 +56,7 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         addSubviews(collectionView, seperatorTopView, seperatorBottomView)
         
         collectionView.snp.makeConstraints {
-            $0.height.equalTo(120)
+            $0.height.equalTo(110 * Constants.Ratio.iPhone12Pro)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
