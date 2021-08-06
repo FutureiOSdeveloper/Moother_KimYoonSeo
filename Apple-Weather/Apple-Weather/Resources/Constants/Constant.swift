@@ -15,13 +15,14 @@ struct Constants {
     struct TableViewFooters {
         static let weekWeather: String = "WeekWeatherFooterView"
         static let weatherDetail: String = "WeatherDetailFooterView"
+        static let location: String = "LocationTableFooterView"
     }
     
     struct TableViewCells {
-        static let temperature: String = "TemperatureTableViewCell"
         static let week: String = "WeekContainerTableViewCell"
         static let weekWeather: String = "WeekWeatherTableViewCell"
         static let weatherDetail: String = "WeatherDetailTableViewCell"
+        static let location: String = "LocationTableViewCell"
     }
     
     struct CollectionViewCells {

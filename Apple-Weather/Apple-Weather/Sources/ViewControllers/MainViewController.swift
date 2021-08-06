@@ -142,7 +142,6 @@ extension MainViewController: UITableViewDelegate {
         }
         
         lastContentOffset = scrollView.contentOffset.y
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

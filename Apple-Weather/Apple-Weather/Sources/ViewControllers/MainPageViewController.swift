@@ -82,8 +82,8 @@ class MainPageViewController: UIViewController {
     }
     
     private func setTargets() {
-        leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        rightButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        leftButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+        rightButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
         pageControl.addTarget(self, action: #selector(pageControltapped(_:)), for: .valueChanged)
     }
     
@@ -160,9 +160,19 @@ extension MainPageViewController {
     }
     
     @objc
-    func tapLeftButton() {
-        if let url = URL(string: "https://weather.com/ko-KR/weather/today/l/KSXX0037:1:KS?Goto=Redirected") {
-            UIApplication.shared.open(url, options: [:])
+    func tapButton(_ sender: UIButton) {
+        switch sender {
+        case leftButton:
+            if let url = URL(string: "https://weather.com/ko-KR/weather/today/l/KSXX0037:1:KS?Goto=Redirected") {
+                UIApplication.shared.open(url, options: [:])
+            }
+        case rightButton:
+            let locationListViewController = LocationListViewController()
+            locationListViewController.modalPresentationStyle = .fullScreen
+            present(locationListViewController, animated: true, completion: nil)
+            
+        default:
+            break
         }
     }
 
