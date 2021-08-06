@@ -25,10 +25,11 @@ class LocationListViewController: UIViewController {
         setLayout()
         
         registerLocationTableView()
+        registerNotification()
     }
     
     private func initLocationListViewController() {
-        view.backgroundColor = .black
+        view.backgroundColor = .darkGray
     }
     
     private func setLayout() {
@@ -45,6 +46,16 @@ class LocationListViewController: UIViewController {
         
         locationTableView.register(LocationTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.location)
         locationTableView.register(LocationTableFooterView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewFooters.location)
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapSearchButton, object: nil)
+    }
+    
+    @objc
+    func didRecieveTestNotification(_ notification: Notification) {
+        let searchViewController = SearchViewController()
+        present(searchViewController, animated: true, completion: nil)
     }
 
 }

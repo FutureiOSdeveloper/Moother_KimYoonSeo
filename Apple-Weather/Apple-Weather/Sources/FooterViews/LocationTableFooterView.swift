@@ -29,10 +29,15 @@ class LocationTableFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setLayout()
+        setTarget()
     }
     
     required init?(coder: NSCoder) {
         fatalError("coder doesn't exist")
+    }
+    
+    private func setTarget() {
+        searchButton.addTarget(self, action: #selector(tapSearchButton(_:)), for: .touchUpInside)
     }
     
     private func setLayout() {
@@ -58,6 +63,11 @@ class LocationTableFooterView: UITableViewHeaderFooterView {
             $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
             $0.centerY.equalToSuperview()
         }
+    }
+    
+    @objc
+    func tapSearchButton(_ sender: UIButton) {
+        NotificationCenter.default.post(name: .tapSearchButton, object: nil, userInfo: nil)
     }
     
 }

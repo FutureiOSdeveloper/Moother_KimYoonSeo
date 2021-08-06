@@ -168,7 +168,7 @@ extension MainPageViewController {
             }
         case rightButton:
             let locationListViewController = LocationListViewController()
-            locationListViewController.modalPresentationStyle = .fullScreen
+            locationListViewController.modalPresentationStyle = .overCurrentContext
             present(locationListViewController, animated: true, completion: nil)
             
         default:

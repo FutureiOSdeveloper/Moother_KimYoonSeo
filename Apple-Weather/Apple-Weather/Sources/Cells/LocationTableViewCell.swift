@@ -36,7 +36,12 @@ class LocationTableViewCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 25)
         $0.textColor = .white
     }
-
+    
+    private let backgroundImageView = UIImageView().then {
+        $0.image = UIImage(named: "backImage")
+        $0.contentMode = .redraw
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setLayout()
@@ -50,8 +55,12 @@ class LocationTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        contentView.addSubviews(locationStackView, temperatureLabel)
+        contentView.addSubviews(backgroundImageView, locationStackView, temperatureLabel)
         locationStackView.addArrangedSubviews(topLabel, locationLabel)
+        
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         locationStackView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(Constants.Spacing.s20)

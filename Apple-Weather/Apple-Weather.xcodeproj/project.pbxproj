@@ -16,6 +16,8 @@
 		DD6C72D626BD55A000EE278A /* LocationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C72D526BD55A000EE278A /* LocationListViewController.swift */; };
 		DD6C72D826BD582400EE278A /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C72D726BD582400EE278A /* LocationTableViewCell.swift */; };
 		DD6C72DB26BD5A0000EE278A /* LocationTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C72DA26BD5A0000EE278A /* LocationTableFooterView.swift */; };
+		DD6C72DD26BD619A00EE278A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C72DC26BD619A00EE278A /* SearchViewController.swift */; };
+		DD6C72DF26BD65F200EE278A /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C72DE26BD65F200EE278A /* Notification.Name+Extension.swift */; };
 		DD71B26C26AD31870025F6BA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DD71B26B26AD31870025F6BA /* .swiftlint.yml */; };
 		DD71B26F26AD3A770025F6BA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD71B26E26AD3A770025F6BA /* MainViewController.swift */; };
 		DD873C3226B05A07003857A0 /* DailyWeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD873C3126B05A07003857A0 /* DailyWeatherCollectionViewCell.swift */; };
@@ -43,6 +45,8 @@
 		DD6C72D526BD55A000EE278A /* LocationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewController.swift; sourceTree = "<group>"; };
 		DD6C72D726BD582400EE278A /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		DD6C72DA26BD5A0000EE278A /* LocationTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableFooterView.swift; sourceTree = "<group>"; };
+		DD6C72DC26BD619A00EE278A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		DD6C72DE26BD65F200EE278A /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		DD71B26B26AD31870025F6BA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DD71B26E26AD3A770025F6BA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DD873C3126B05A07003857A0 /* DailyWeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			children = (
 				DD8FD3A026AF0DD50005D84D /* UIView+Extension.swift */,
 				DD8FD3A226AF0DFC0005D84D /* UIStackView+Extension.swift */,
+				DD6C72DE26BD65F200EE278A /* Notification.Name+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				DDD3F2F226AC3C2400FD547A /* MainPageViewController.swift */,
 				DD71B26E26AD3A770025F6BA /* MainViewController.swift */,
 				DD6C72D526BD55A000EE278A /* LocationListViewController.swift */,
+				DD6C72DC26BD619A00EE278A /* SearchViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -377,10 +383,12 @@
 				DD56E5CE26B2839800D9F0A2 /* WeatherDetailTableViewCell.swift in Sources */,
 				DD65D02126B1292A008BEF79 /* WeekWeatherFooterView.swift in Sources */,
 				DDD3F2EF26AC3C2400FD547A /* AppDelegate.swift in Sources */,
+				DD6C72DD26BD619A00EE278A /* SearchViewController.swift in Sources */,
 				DDD3F2F126AC3C2400FD547A /* SceneDelegate.swift in Sources */,
 				DD71B26F26AD3A770025F6BA /* MainViewController.swift in Sources */,
 				DD6C72DB26BD5A0000EE278A /* LocationTableFooterView.swift in Sources */,
 				DD8FD39E26AF0CBB0005D84D /* DailyWeatherHeaderView.swift in Sources */,
+				DD6C72DF26BD65F200EE278A /* Notification.Name+Extension.swift in Sources */,
 				DD873C3226B05A07003857A0 /* DailyWeatherCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
