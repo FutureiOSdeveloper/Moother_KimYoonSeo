@@ -16,6 +16,7 @@ class LocationListViewController: UIViewController {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
         $0.separatorStyle = .none
+        $0.contentInsetAdjustmentBehavior = .never
     }
 
     override func viewDidLoad() {
@@ -29,14 +30,13 @@ class LocationListViewController: UIViewController {
     }
     
     private func initLocationListViewController() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .black
     }
     
     private func setLayout() {
         view.addSubviews(locationTableView)
         locationTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.bottom.leading.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -61,16 +61,34 @@ class LocationListViewController: UIViewController {
 }
 
 extension LocationListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return LocationTableFooterView()
+        switch section {
+        case 1:
+            return LocationTableFooterView()
+        default:
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 50
+        switch section {
+        case 1:
+            return 50
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        switch indexPath.section {
+        case 0:
+            return 70 + 44
+        case 1:
+            return 70
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -78,24 +96,42 @@ extension LocationListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: nil) { _, _, completion in
-            completion(true)
+        switch indexPath.section {
+        case 1:
+            let action = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+                completion(true)
+            }
+
+            action.title = "삭제"
+            action.backgroundColor = UIColor(red: 1, green: 0.322, blue: 0.322, alpha: 1)
+
+            let configuration = UISwipeActionsConfiguration(actions: [action])
+            configuration.performsFirstActionWithFullSwipe = true
+
+            return configuration
+                
+        default:
+            return nil
         }
-
-        action.title = "삭제"
-        action.backgroundColor = UIColor(red: 1, green: 0.322, blue: 0.322, alpha: 1)
-
-        let configuration = UISwipeActionsConfiguration(actions: [action])
-        configuration.performsFirstActionWithFullSwipe = true
-
-        return configuration
     }
     
 }
 
 extension LocationListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 3
+        default:
+            return 0
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
