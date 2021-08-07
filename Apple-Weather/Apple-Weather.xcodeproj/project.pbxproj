@@ -25,6 +25,8 @@
 		DD8FD3A126AF0DD50005D84D /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8FD3A026AF0DD50005D84D /* UIView+Extension.swift */; };
 		DD8FD3A326AF0DFC0005D84D /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8FD3A226AF0DFC0005D84D /* UIStackView+Extension.swift */; };
 		DD8FD3A626AF0F8D0005D84D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8FD3A526AF0F8D0005D84D /* Constant.swift */; };
+		DD94BE8726BEA8A30042CA59 /* 4796-weather-cloudynight.json in Resources */ = {isa = PBXBuildFile; fileRef = DD94BE8526BEA8A20042CA59 /* 4796-weather-cloudynight.json */; };
+		DD94BE8826BEA8A30042CA59 /* 4800-weather-partly-cloudy.json in Resources */ = {isa = PBXBuildFile; fileRef = DD94BE8626BEA8A30042CA59 /* 4800-weather-partly-cloudy.json */; };
 		DDD3F2EF26AC3C2400FD547A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2EE26AC3C2400FD547A /* AppDelegate.swift */; };
 		DDD3F2F126AC3C2400FD547A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2F026AC3C2400FD547A /* SceneDelegate.swift */; };
 		DDD3F2F326AC3C2400FD547A /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3F2F226AC3C2400FD547A /* MainPageViewController.swift */; };
@@ -54,6 +56,8 @@
 		DD8FD3A026AF0DD50005D84D /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DD8FD3A226AF0DFC0005D84D /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		DD8FD3A526AF0F8D0005D84D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		DD94BE8526BEA8A20042CA59 /* 4796-weather-cloudynight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "4796-weather-cloudynight.json"; sourceTree = "<group>"; };
+		DD94BE8626BEA8A30042CA59 /* 4800-weather-partly-cloudy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "4800-weather-partly-cloudy.json"; sourceTree = "<group>"; };
 		DDD3F2EB26AC3C2400FD547A /* Apple-Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apple-Weather.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD3F2EE26AC3C2400FD547A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDD3F2F026AC3C2400FD547A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 		DDD3F30526AC3C9300FD547A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DD94BE8526BEA8A20042CA59 /* 4796-weather-cloudynight.json */,
+				DD94BE8626BEA8A30042CA59 /* 4800-weather-partly-cloudy.json */,
 				DD8FD3A426AF0F650005D84D /* Constants */,
 				DDD3F30726AC3CDB00FD547A /* Storyboards */,
 				DDD3F2F726AC3C2500FD547A /* Assets.xcassets */,
@@ -301,6 +307,8 @@
 				DD71B26C26AD31870025F6BA /* .swiftlint.yml in Resources */,
 				DDD3F2FB26AC3C2500FD547A /* LaunchScreen.storyboard in Resources */,
 				DDD3F2F826AC3C2500FD547A /* Assets.xcassets in Resources */,
+				DD94BE8726BEA8A30042CA59 /* 4796-weather-cloudynight.json in Resources */,
+				DD94BE8826BEA8A30042CA59 /* 4800-weather-partly-cloudy.json in Resources */,
 				DDD3F2F626AC3C2400FD547A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
