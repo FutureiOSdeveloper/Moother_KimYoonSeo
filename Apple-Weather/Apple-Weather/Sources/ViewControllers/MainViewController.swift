@@ -231,7 +231,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekContainerTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        if let detailWeather = weather?.detailWeather{
+        if let detailWeather = weather?.detailWeather {
             cell.setData(weekWeather: detailWeather.weekWeather)
         }
         return cell

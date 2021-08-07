@@ -172,6 +172,7 @@ extension MainPageViewController {
         case rightButton:
             let locationListViewController = LocationListViewController()
             locationListViewController.modalPresentationStyle = .overCurrentContext
+            locationListViewController.setData(weathers: weathers)
             present(locationListViewController, animated: true, completion: nil)
             
         default:

@@ -12,6 +12,8 @@ import Then
 
 class LocationListViewController: UIViewController {
     
+    private var weathers: [MainWeatherModel]?
+    
     private let locationTableView = UITableView().then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
@@ -50,12 +52,25 @@ class LocationListViewController: UIViewController {
     
     private func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapSearchButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapFtoCButton, object: nil)
     }
     
     @objc
     func didRecieveTestNotification(_ notification: Notification) {
-        let searchViewController = SearchViewController()
-        present(searchViewController, animated: true, completion: nil)
+        switch notification.name {
+        case .tapSearchButton:
+            let searchViewController = SearchViewController()
+            present(searchViewController, animated: true, completion: nil)
+        case .tapFtoCButton:
+            locationTableView.reloadData()
+        default:
+            break
+        }
+        
+    }
+    
+    public func setData(weathers: [MainWeatherModel]) {
+        self.weathers = weathers
     }
 
 }
@@ -127,7 +142,7 @@ extension LocationListViewController: UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 3
+            return weathers?.count ?? 0
         default:
             return 0
         }
@@ -137,7 +152,9 @@ extension LocationListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = locationTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.location, for: indexPath) as? LocationTableViewCell
         else { return UITableViewCell() }
-        
+        if let weathers = weathers {
+            cell.setData(location: weathers[indexPath.row].location, temperature: weathers[indexPath.row].temperature)
+        }
         return cell
     }
     

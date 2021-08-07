@@ -12,7 +12,7 @@ import Then
 
 class LocationTableViewCell: UITableViewCell {
     
-    private let topLabel = UILabel().then {
+    private let timeLabel = UILabel().then {
         $0.text = "용인시"
         $0.font = .systemFont(ofSize: 12)
         $0.textColor = .white
@@ -55,7 +55,7 @@ class LocationTableViewCell: UITableViewCell {
         selectionStyle = .none
         
         contentView.addSubviews(backgroundImageView, locationStackView, temperatureLabel)
-        locationStackView.addArrangedSubviews(topLabel, locationLabel)
+        locationStackView.addArrangedSubviews(timeLabel, locationLabel)
         
         backgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -72,6 +72,16 @@ class LocationTableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview().offset(-10)
             $0.height.equalTo(50)
         }
+    }
+    
+    public func setData(location: String, temperature: Int) {
+        locationLabel.text = location
+        if UserDefaults.standard.bool(forKey: UserDefaultsKey.FtoCButtonState) {
+            temperatureLabel.text = temperature.addTemperatureSymbol()
+        } else {
+            temperatureLabel.text = (temperature * 9 / 5 + 32 ).addTemperatureSymbol()
+        }
+//        timeLabel.text = Calendar.current.timeZone + ""
     }
 
 }

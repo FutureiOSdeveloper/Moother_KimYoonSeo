@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let tapSearchButton = Notification.Name("tapSearchButton")
+    static let tapFtoCButton = Notification.Name("tapFtoCButton")
 }
