@@ -44,6 +44,13 @@ class WeekWeatherTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        [dayLabel, highTemperatureLabel, lowTemperatureLabel].forEach { $0.text = nil }
+        weatherImageView.image = nil
+    }
+    
     private func layoutWeekWeatherTableViewCell() {
         backgroundColor = .clear
         contentView.addSubviews(dayLabel, highTemperatureLabel, lowTemperatureLabel, weatherImageView)
@@ -67,5 +74,12 @@ class WeekWeatherTableViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
             $0.trailing.equalTo(lowTemperatureLabel.snp.leading).inset(-Constants.Spacing.s20)
         }
+    }
+    
+    public func setData(weekWeather: WeekWeaherModel) {
+        dayLabel.text = weekWeather.day
+        highTemperatureLabel.text = weekWeather.highTemperature.addTemperatureSymbol()
+        lowTemperatureLabel.text = weekWeather.lowTemperature.addTemperatureSymbol()
+        weatherImageView.image = UIImage(systemName: weekWeather.icon)
     }
 }

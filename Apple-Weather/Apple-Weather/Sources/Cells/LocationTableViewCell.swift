@@ -26,13 +26,12 @@ class LocationTableViewCell: UITableViewCell {
     
     private let locationStackView = UIStackView().then {
         $0.axis = .vertical
-//        $0.spacing = 5
         $0.alignment = .leading
         $0.distribution = .fillProportionally
     }
     
     private let temperatureLabel = UILabel().then {
-        $0.text = "27"
+        $0.text = 27.addTemperatureSymbol()
         $0.font = .systemFont(ofSize: 50, weight: .thin)
         $0.textColor = .white
     }

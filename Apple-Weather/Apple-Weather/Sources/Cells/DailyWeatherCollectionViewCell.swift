@@ -50,6 +50,12 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        [timeLabel, temperatureLabel].forEach { $0.text = nil }
+        weatherImageView.image = nil
+    }
+    
     private func layoutDailyWeatherCollectionViewCell() {
         backgroundColor = .clear
         
@@ -63,5 +69,11 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
         vStackView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
+    }
+    
+    public func setData(dailyWeather: DailyWeatherModel) {
+        timeLabel.text = dailyWeather.time.addTemperatureSymbol()
+        temperatureLabel.text = dailyWeather.temperature.addTemperatureSymbol()
+        weatherImageView.image = UIImage(systemName: dailyWeather.icon)
     }
 }

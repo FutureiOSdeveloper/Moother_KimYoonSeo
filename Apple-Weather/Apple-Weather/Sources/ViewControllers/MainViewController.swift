@@ -13,6 +13,8 @@ import Then
 
 class MainViewController: UIViewController {
     
+    private var weather: MainWeatherModel?
+    
     private let mainTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
@@ -38,19 +40,19 @@ class MainViewController: UIViewController {
     }
     
     private let temperatureLabel = UILabel().then {
-        $0.text = "34"
+        $0.text = 34.addTemperatureSymbol()
         $0.font = .systemFont(ofSize: 80, weight: .thin)
         $0.textColor = .white
     }
     
     private let highTemperatureLabel = UILabel().then {
-        $0.text = "최고:34"
+        $0.text = "최고:" + 34.addTemperatureSymbol()
         $0.font = .systemFont(ofSize: 12)
         $0.textColor = .white
     }
     
     private let lowTemperatureLabel = UILabel().then {
-        $0.text = "최저:24"
+        $0.text = "최저:" + 24.addTemperatureSymbol()
         $0.font = .systemFont(ofSize: 12)
         $0.textColor = .white
     }
@@ -85,6 +87,7 @@ class MainViewController: UIViewController {
         initMainTableView()
         setLayoutMainViewController()
         setTargets()
+       
     }
     
     private func setTargets() {
@@ -133,6 +136,9 @@ class MainViewController: UIViewController {
         mainTableView.register(WeekContainerTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
     }
     
+    public func setData(weather: MainWeatherModel) {
+        self.weather = weather
+    }
 }
 
 extension MainViewController: UITableViewDelegate {
@@ -191,8 +197,13 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.TableViewHeaders.dailyWeather) as? DailyWeatherHeaderView
+        
         else {
             return UIView()
+        }
+        
+        if let weather = weather {
+            header.setData(dailyWeather: weather.dailyWeather)
         }
     
         return header
@@ -220,6 +231,9 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekContainerTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
+        if let detailWeather = weather?.detailWeather{
+            cell.setData(weekWeather: detailWeather.weekWeather)
+        }
         return cell
     }
 

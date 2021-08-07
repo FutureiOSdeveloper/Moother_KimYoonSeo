@@ -12,6 +12,8 @@ import Then
 
 class WeekContainerTableViewCell: UITableViewCell {
     
+    private var weekWeather: [WeekWeaherModel]?
+    
     private let weekWeatherTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.backgroundColor = .clear
         $0.showsVerticalScrollIndicator = false
@@ -50,6 +52,10 @@ class WeekContainerTableViewCell: UITableViewCell {
         weekWeatherTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    public func setData(weekWeather: [WeekWeaherModel]){
+        self.weekWeather = weekWeather
     }
 }
 
@@ -119,7 +125,7 @@ extension WeekContainerTableViewCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 9
+            return weekWeather?.count ?? 0
         case 1:
             return 5
         default:
@@ -134,6 +140,9 @@ extension WeekContainerTableViewCell: UITableViewDataSource {
             guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weekWeather, for: indexPath) as? WeekWeatherTableViewCell
             else { return UITableViewCell() }
             cell.selectionStyle = .none
+            if let weekWeather = weekWeather {
+                cell.setData(weekWeather: weekWeather[indexPath.row])
+            }
             return cell
         case 1:
             guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weatherDetail, for: indexPath) as? WeatherDetailTableViewCell

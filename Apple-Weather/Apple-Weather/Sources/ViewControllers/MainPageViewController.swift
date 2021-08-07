@@ -13,6 +13,7 @@ import Then
 class MainPageViewController: UIViewController {
     
     private var viewControllerList: [UIViewController] = []
+    public var weathers: [MainWeatherModel] = []
     
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
@@ -37,12 +38,13 @@ class MainPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setData()
         setLayoutPageViewController()
         setPageViewController()
         setViewControllerList()
         setPageControlBar()
         setTargets()
-       
+        
     }
     
     private func setLayoutPageViewController() {
@@ -103,18 +105,20 @@ class MainPageViewController: UIViewController {
     }
     
     private func setViewControllerList() {
-        viewControllerList.append(instantiateViewController(index: 0))
-        viewControllerList.append(instantiateViewController(index: 1))
-        viewControllerList.append(instantiateViewController(index: 2))
+        
+        for index in 0...weathers.count - 1 {
+            viewControllerList.append(instantiateViewController(index: index))
+        }
         
         pageControl.numberOfPages = viewControllerList.count
         pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
     }
     
     private func instantiateViewController(index: Int) -> UIViewController {
-       let vc = MainViewController()
-       vc.view.tag = index
-       return vc
+        let vc = MainViewController()
+        vc.view.tag = index
+        vc.setData(weather: weathers[index])
+        return vc
     }
     
 }
@@ -124,7 +128,7 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
 
-        let nextIndex = index > 0 ? index - 1 : 3 - 1
+        let nextIndex = index > 0 ? index - 1 : viewControllerList.count - 1
 
         let nextVC = viewControllerList[nextIndex]
         return nextVC
@@ -133,7 +137,7 @@ extension MainPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
         
-        let nextIndex = (index + 1) % 3
+        let nextIndex = (index + 1) % viewControllerList.count
         let nextVC = viewControllerList[nextIndex]
         
         return nextVC

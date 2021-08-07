@@ -12,6 +12,8 @@ import Then
 
 class DailyWeatherHeaderView: UITableViewHeaderFooterView {
     
+    private var dailyWeather: [DailyWeatherModel]?
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -71,6 +73,10 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
             $0.height.equalTo(Constants.Seperator.height)
         }
     }
+    
+    public func setData(dailyWeather: [DailyWeatherModel]) {
+        self.dailyWeather = dailyWeather
+    }
 }
 
 extension DailyWeatherHeaderView: UICollectionViewDelegate {
@@ -79,12 +85,16 @@ extension DailyWeatherHeaderView: UICollectionViewDelegate {
 
 extension DailyWeatherHeaderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return dailyWeather?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCells.dailyWeather, for: indexPath) as? DailyWeatherCollectionViewCell
         else { return UICollectionViewCell() }
+        
+        if let dailyWeather = dailyWeather {
+            cell.setData(dailyWeather: dailyWeather[indexPath.row])
+        }
         
         return cell
     }
