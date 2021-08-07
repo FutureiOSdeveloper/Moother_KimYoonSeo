@@ -46,13 +46,12 @@ class MainPageViewController: UIViewController {
     }
     
     private func setLayoutPageViewController() {
+        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 45 / 255, alpha: 1)
+        
         pageViewController.dataSource = self
         pageViewController.delegate = self
          
-        view.addSubviews(backgroundImageView, seperatorView, pageViewController.view, leftButton)
-        backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        view.addSubviews(backgroundImageView, pageViewController.view, seperatorView, leftButton)
 
         seperatorView.snp.makeConstraints {
             $0.height.equalTo(Constants.Seperator.height)

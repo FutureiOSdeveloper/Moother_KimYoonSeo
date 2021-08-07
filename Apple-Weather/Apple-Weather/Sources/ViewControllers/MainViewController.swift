@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Lottie
 import SnapKit
 import Then
 
@@ -59,17 +60,46 @@ class MainViewController: UIViewController {
         $0.spacing = 10
     }
     
+    private let lottieView = AnimationView(name: "4796-weather-cloudynight").then { animationView in
+        animationView.play()
+    }
+    
+    private let dismissButton = UIButton().then {
+        $0.setTitle("취소", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        
+        $0.isHidden = true
+    }
+    
+    private let addButton = UIButton().then {
+        $0.setTitle("추가", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.isHidden = true
+    }
+    
     private let locationViewTopConstraint: CGFloat = 50 * Constants.Ratio.iPhone12Pro
+    private var lastContentOffset: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initMainTableView()
         setLayoutMainViewController()
+        setTargets()
+    }
+    
+    private func setTargets() {
+        dismissButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
     }
     
     private func setLayoutMainViewController() {
-        view.backgroundColor = .clear
-        view.addSubviews(locationStackView, mainTableView)
+        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 45 / 255, alpha: 1)
+        view.addSubviews(lottieView, locationStackView, mainTableView, dismissButton, addButton)
+        
+        lottieView.snp.makeConstraints {
+            $0.width.height.equalTo(200)
+            $0.center.equalToSuperview()
+        }
         
         locationStackView.addArrangedSubviews(locationLabel, weatherLabel, temperatureLabel, temperatureStackView)
         temperatureStackView.addArrangedSubviews(highTemperatureLabel, lowTemperatureLabel)
@@ -84,6 +114,15 @@ class MainViewController: UIViewController {
             $0.trailing.bottom.leading.equalToSuperview()
         }
         
+        dismissButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.Spacing.s20)
+            $0.leading.equalToSuperview().offset(Constants.Spacing.s20)
+        }
+        
+        addButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.Spacing.s20)
+            $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
+        }
     }
     
     private func initMainTableView() {
@@ -93,8 +132,6 @@ class MainViewController: UIViewController {
         mainTableView.register(DailyWeatherHeaderView.self, forHeaderFooterViewReuseIdentifier: Constants.TableViewHeaders.dailyWeather)
         mainTableView.register(WeekContainerTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCells.week)
     }
-    
-    private var lastContentOffset: CGFloat = 0
     
 }
 
@@ -186,4 +223,18 @@ extension MainViewController: UITableViewDataSource {
         return cell
     }
 
+}
+
+extension MainViewController {
+    @objc
+    private func tapButton(_ sender: UIButton) {
+        switch sender {
+        case dismissButton:
+            dismiss(animated: true, completion: nil)
+        case addButton:
+            presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        default:
+            break
+        }
+    }
 }
