@@ -12,7 +12,7 @@ import Then
 
 class MainPageViewController: UIViewController {
     
-    private var viewControllerList: [UIViewController] = []
+    private var viewControllerList: [MainViewController] = []
     public var weathers: [MainWeatherModel] = []
     
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -114,7 +114,7 @@ class MainPageViewController: UIViewController {
         pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
     }
     
-    private func instantiateViewController(index: Int) -> UIViewController {
+    private func instantiateViewController(index: Int) -> MainViewController {
         let vc = MainViewController()
         vc.view.tag = index
         vc.setData(weather: weathers[index])
@@ -129,7 +129,6 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
 
         let nextIndex = index > 0 ? index - 1 : viewControllerList.count - 1
-
         let nextVC = viewControllerList[nextIndex]
         return nextVC
     }
@@ -139,7 +138,6 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         
         let nextIndex = (index + 1) % viewControllerList.count
         let nextVC = viewControllerList[nextIndex]
-        
         return nextVC
     }
     

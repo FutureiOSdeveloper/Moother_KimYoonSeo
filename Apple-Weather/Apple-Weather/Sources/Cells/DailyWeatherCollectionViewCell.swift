@@ -72,8 +72,8 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
     }
     
     public func setData(dailyWeather: DailyWeatherModel) {
-        timeLabel.text = dailyWeather.time.addTemperatureSymbol()
-        temperatureLabel.text = dailyWeather.temperature.addTemperatureSymbol()
+        timeLabel.text = "\(dailyWeather.time)시"
+        temperatureLabel.text = dailyWeather.temperature.isFahrenheit().addTemperatureSymbol()
         weatherImageView.image = UIImage(systemName: dailyWeather.icon)
     }
 }

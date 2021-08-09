@@ -29,6 +29,8 @@ class WeekContainerTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initWeekWeatherTableView()
         layoutWeekWeatherTableViewCell()
+        
+        registerNotification()
     }
 
     required init?(coder: NSCoder) {
@@ -54,8 +56,23 @@ class WeekContainerTableViewCell: UITableViewCell {
         }
     }
     
-    public func setData(weekWeather: [WeekWeaherModel]){
+    public func setData(weekWeather: [WeekWeaherModel]) {
         self.weekWeather = weekWeather
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapFtoCButton, object: nil)
+    }
+    
+    @objc
+    func didRecieveTestNotification(_ notification: Notification) {
+        switch notification.name {
+        case .tapFtoCButton:
+            weekWeatherTableView.reloadData()
+        default:
+            break
+        }
+        
     }
 }
 

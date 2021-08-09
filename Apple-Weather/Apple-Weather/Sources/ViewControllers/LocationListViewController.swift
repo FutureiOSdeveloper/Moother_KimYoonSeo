@@ -24,14 +24,14 @@ class LocationListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initLocationListViewController()
+        initViewController()
         setLayout()
         
         registerLocationTableView()
         registerNotification()
     }
     
-    private func initLocationListViewController() {
+    private func initViewController() {
         view.backgroundColor = .black
     }
     

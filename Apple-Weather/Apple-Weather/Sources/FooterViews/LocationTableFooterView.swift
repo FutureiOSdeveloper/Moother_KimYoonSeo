@@ -90,6 +90,7 @@ class LocationTableFooterView: UITableViewHeaderFooterView {
             NotificationCenter.default.post(name: .tapFtoCButton, object: nil, userInfo: nil)
             isToggle.toggle()
             UserDefaults.standard.set(isToggle, forKey: UserDefaultsKey.FtoCButtonState)
+            NotificationCenter.default.post(name: .changeFtoC, object: nil, userInfo: nil)
             setFtoCButton()
         default:
             break

@@ -78,8 +78,8 @@ class WeekWeatherTableViewCell: UITableViewCell {
     
     public func setData(weekWeather: WeekWeaherModel) {
         dayLabel.text = weekWeather.day
-        highTemperatureLabel.text = weekWeather.highTemperature.addTemperatureSymbol()
-        lowTemperatureLabel.text = weekWeather.lowTemperature.addTemperatureSymbol()
+        highTemperatureLabel.text = weekWeather.highTemperature.isFahrenheit().addTemperatureSymbol()
+        lowTemperatureLabel.text = weekWeather.lowTemperature.isFahrenheit().addTemperatureSymbol()
         weatherImageView.image = UIImage(systemName: weekWeather.icon)
     }
 }

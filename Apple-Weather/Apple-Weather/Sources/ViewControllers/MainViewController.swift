@@ -87,6 +87,8 @@ class MainViewController: UIViewController {
         initMainTableView()
         setLayoutMainViewController()
         setTargets()
+        
+        registerNotification()
        
     }
     
@@ -138,7 +140,35 @@ class MainViewController: UIViewController {
     
     public func setData(weather: MainWeatherModel) {
         self.weather = weather
+        setData()
     }
+    
+    private func setData() {
+        if let weather = self.weather {
+            locationLabel.text = weather.location
+            temperatureLabel.text = weather.temperature.isFahrenheit().addTemperatureSymbol()
+            lowTemperatureLabel.text = "최저:\(weather.lowTemperatuer.isFahrenheit().addTemperatureSymbol())"
+            highTemperatureLabel.text = "최고:\(weather.highTemperature.isFahrenheit().addTemperatureSymbol())"
+            weatherLabel.text = weather.weather
+        }
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .changeFtoC, object: nil)
+    }
+    
+    @objc
+    func didRecieveTestNotification(_ notification: Notification) {
+        switch notification.name {
+        case .changeFtoC:
+            setData()
+            mainTableView.reloadData()
+        default:
+            break
+        }
+        
+    }
+
 }
 
 extension MainViewController: UITableViewDelegate {

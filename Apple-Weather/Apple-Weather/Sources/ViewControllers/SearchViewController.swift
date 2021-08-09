@@ -175,8 +175,7 @@ extension SearchViewController: UITableViewDelegate {
            guard let placeMark = response?.mapItems[0].placemark else {
                return
            }
-        
-        dump(response?.mapItems[0].name)
+            
         
         self.present(MainViewController(), animated: true, completion: nil)
        }

@@ -37,6 +37,8 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         initCollectionView()
         layoutLocationSectionHeaderView()
+        
+        registerNotification()
     }
     
     required init?(coder: NSCoder) {
@@ -76,6 +78,21 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
     
     public func setData(dailyWeather: [DailyWeatherModel]) {
         self.dailyWeather = dailyWeather
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapFtoCButton, object: nil)
+    }
+    
+    @objc
+    func didRecieveTestNotification(_ notification: Notification) {
+        switch notification.name {
+        case .tapFtoCButton:
+            collectionView.reloadData()
+        default:
+            break
+        }
+        
     }
 }
 

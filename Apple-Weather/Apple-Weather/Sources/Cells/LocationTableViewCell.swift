@@ -76,11 +76,8 @@ class LocationTableViewCell: UITableViewCell {
     
     public func setData(location: String, temperature: Int) {
         locationLabel.text = location
-        if UserDefaults.standard.bool(forKey: UserDefaultsKey.FtoCButtonState) {
-            temperatureLabel.text = temperature.addTemperatureSymbol()
-        } else {
-            temperatureLabel.text = (temperature * 9 / 5 + 32 ).addTemperatureSymbol()
-        }
+        temperatureLabel.text = temperature.isFahrenheit().addTemperatureSymbol()
+    
 //        timeLabel.text = Calendar.current.timeZone + ""
     }
 

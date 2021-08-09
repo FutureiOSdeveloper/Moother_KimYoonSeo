@@ -1,5 +1,5 @@
 //
-//  MainViewControllerData.swift
+//  MainPageViewControllerData.swift
 //  Apple-Weather
 //
 //  Created by 김윤서 on 2021/08/07.
@@ -24,7 +24,7 @@ extension MainPageViewController {
                                                                              ])
                                          ))
         
-        weathers.append(MainWeatherModel(location: "용인시",
+        weathers.append(MainWeatherModel(location: "서울시",
                                          weather: "청명함",
                                          temperature: 27,
                                          highTemperature: 33,
@@ -40,7 +40,7 @@ extension MainPageViewController {
                                                                                              lowTemperature: 22)
                                                                              ])
                                          ))
-        weathers.append(MainWeatherModel(location: "용인시",
+        weathers.append(MainWeatherModel(location: "진주시",
                                          weather: "청명함",
                                          temperature: 27,
                                          highTemperature: 33,
@@ -57,7 +57,7 @@ extension MainPageViewController {
                                                                              ])
                                          ))
         
-        weathers.append(MainWeatherModel(location: "용인시",
+        weathers.append(MainWeatherModel(location: "평택시",
                                          weather: "청명함",
                                          temperature: 27,
                                          highTemperature: 33,
