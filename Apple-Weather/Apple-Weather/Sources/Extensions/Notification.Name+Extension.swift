@@ -11,4 +11,5 @@ extension Notification.Name {
     static let tapSearchButton = Notification.Name("tapSearchButton")
     static let tapFtoCButton = Notification.Name("tapFtoCButton")
     static let changeFtoC = Notification.Name("changeFtoC")
+    static let addLocation =  Notification.Name("addLocation")
 }

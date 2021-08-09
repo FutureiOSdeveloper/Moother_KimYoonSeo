@@ -22,13 +22,12 @@ class MainViewController: UIViewController {
     }
     
     private let locationLabel = UILabel().then {
-        $0.text = "용인시"
+        $0.text = "--"
         $0.font = .systemFont(ofSize: 28)
         $0.textColor = .white
     }
     
     private let weatherLabel = UILabel().then {
-        $0.text = "한때 흐림"
         $0.font = .systemFont(ofSize: 12)
         $0.textColor = .white
     }
@@ -69,7 +68,6 @@ class MainViewController: UIViewController {
     private let dismissButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        
         $0.isHidden = true
     }
     
@@ -87,9 +85,15 @@ class MainViewController: UIViewController {
         initMainTableView()
         setLayoutMainViewController()
         setTargets()
+        setButton()
         
         registerNotification()
-       
+   
+    }
+    
+    private func setButton() {
+        addButton.isHidden = !isModal
+        dismissButton.isHidden = !isModal
     }
     
     private func setTargets() {
@@ -154,21 +158,8 @@ class MainViewController: UIViewController {
     }
     
     private func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .changeFtoC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .changeFtoC, object: nil)
     }
-    
-    @objc
-    func didRecieveTestNotification(_ notification: Notification) {
-        switch notification.name {
-        case .changeFtoC:
-            setData()
-            mainTableView.reloadData()
-        default:
-            break
-        }
-        
-    }
-
 }
 
 extension MainViewController: UITableViewDelegate {
@@ -276,9 +267,22 @@ extension MainViewController {
         case dismissButton:
             dismiss(animated: true, completion: nil)
         case addButton:
+            NotificationCenter.default.post(name: .addLocation, object: weather, userInfo: nil)
             presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         default:
             break
         }
     }
+    
+    @objc
+    func didRecieveNotification(_ notification: Notification) {
+        switch notification.name {
+        case .changeFtoC:
+            setData()
+            mainTableView.reloadData()
+        default:
+            break
+        }
+    }
+
 }

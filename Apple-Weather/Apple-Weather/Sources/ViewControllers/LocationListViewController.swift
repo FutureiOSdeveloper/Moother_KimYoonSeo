@@ -51,17 +51,23 @@ class LocationListViewController: UIViewController {
     }
     
     private func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapSearchButton, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapFtoCButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .tapSearchButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .tapFtoCButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .addLocation, object: nil)
     }
     
     @objc
-    func didRecieveTestNotification(_ notification: Notification) {
+    func didRecieveNotification(_ notification: Notification) {
         switch notification.name {
         case .tapSearchButton:
             let searchViewController = SearchViewController()
             present(searchViewController, animated: true, completion: nil)
         case .tapFtoCButton:
+            locationTableView.reloadData()
+        case .addLocation:
+            if let  object = notification.object as? MainWeatherModel {
+                weathers?.append(object)
+            }
             locationTableView.reloadData()
         default:
             break
@@ -152,9 +158,27 @@ extension LocationListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = locationTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.location, for: indexPath) as? LocationTableViewCell
         else { return UITableViewCell() }
-        if let weathers = weathers {
-            cell.setData(location: weathers[indexPath.row].location, temperature: weathers[indexPath.row].temperature)
+        
+        switch indexPath.section {
+        case 0:
+            if let weathers = weathers {
+                cell.setData(location: "나의 위치", temperature: weathers[indexPath.row].temperature, time: weathers[indexPath.row].location)
+            }
+           
+        case 1:
+            let now = Date()
+            let date = DateFormatter()
+            date.locale = Locale(identifier: "ko_kr")
+            date.timeZone = TimeZone(abbreviation: "KST")
+            date.dateFormat = "HH:mm"
+            
+            if let weathers = weathers {
+                cell.setData(location: weathers[indexPath.row].location, temperature: weathers[indexPath.row].temperature, time: date.string(from: now))
+            }
+        default:
+            break
         }
+        
         return cell
     }
     

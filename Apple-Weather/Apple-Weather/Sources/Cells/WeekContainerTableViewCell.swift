@@ -61,11 +61,11 @@ class WeekContainerTableViewCell: UITableViewCell {
     }
     
     private func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveTestNotification(_:)), name: .tapFtoCButton, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .tapFtoCButton, object: nil)
     }
     
     @objc
-    func didRecieveTestNotification(_ notification: Notification) {
+    func didRecieveNotification(_ notification: Notification) {
         switch notification.name {
         case .tapFtoCButton:
             weekWeatherTableView.reloadData()

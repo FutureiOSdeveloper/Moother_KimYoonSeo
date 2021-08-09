@@ -22,6 +22,8 @@ class MainPageViewController: UIViewController {
         $0.pageIndicatorTintColor = .white.withAlphaComponent(0.3)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    private let toolbar = UIToolbar()
 
     private let backgroundImageView = UIImageView().then {
         $0.image = UIImage(named: "backImage")
@@ -33,7 +35,6 @@ class MainPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
     }
 
     override func viewDidLoad() {
@@ -45,6 +46,8 @@ class MainPageViewController: UIViewController {
         setPageControlBar()
         setTargets()
         
+        registerNotification()
+        
     }
     
     private func setLayoutPageViewController() {
@@ -53,20 +56,25 @@ class MainPageViewController: UIViewController {
         pageViewController.dataSource = self
         pageViewController.delegate = self
          
-        view.addSubviews(backgroundImageView, pageViewController.view, seperatorView, leftButton)
-
+        view.addSubviews(pageViewController.view, leftButton, toolbar, seperatorView)
+        toolbar.snp.makeConstraints {
+            $0.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(30)
+        }
+    
         seperatorView.snp.makeConstraints {
             $0.height.equalTo(Constants.Seperator.height)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalTo(toolbar.snp.top)
         }
 
         addChild(pageViewController)
 
         pageViewController.view.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalTo(toolbar.snp.top)
         }
+       
     }
     
     private func setPageViewController() {
@@ -95,17 +103,15 @@ class MainPageViewController: UIViewController {
         
         let pageControl = UIBarButtonItem(customView: pageControl)
         
-        navigationController?.isToolbarHidden = false
-        navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
-        navigationController?.toolbar.backgroundColor = .clear
-        navigationController?.toolbar.tintColor = .white
-        
-        toolbarItems = [leftIcon, flexibleSpace, pageControl, flexibleSpace, rightIcon]
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        toolbar.backgroundColor = .clear
+        toolbar.tintColor = .white
+        toolbar.setItems([leftIcon, flexibleSpace, pageControl, flexibleSpace, rightIcon], animated: true)
         
     }
     
     private func setViewControllerList() {
-        
+        viewControllerList.removeAll()
         for index in 0...weathers.count - 1 {
             viewControllerList.append(instantiateViewController(index: index))
         }
@@ -121,6 +127,9 @@ class MainPageViewController: UIViewController {
         return vc
     }
     
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .addLocation, object: nil)
+    }
 }
 
 extension MainPageViewController: UIPageViewControllerDataSource {
@@ -176,6 +185,20 @@ extension MainPageViewController {
         default:
             break
         }
+    }
+    
+    @objc
+    func didRecieveNotification(_ notification: Notification) {
+        switch notification.name {
+        case .addLocation:
+            if let  object = notification.object as? MainWeatherModel {
+                weathers.append(object)
+            }
+            setViewControllerList()
+        default:
+            break
+        }
+        
     }
 
 }

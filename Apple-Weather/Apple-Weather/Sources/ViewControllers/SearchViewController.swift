@@ -167,17 +167,33 @@ extension SearchViewController: UITableViewDelegate {
        let selectedResult = searchResults[indexPath.row]
        let searchRequest = MKLocalSearch.Request(completion: selectedResult)
        let search = MKLocalSearch(request: searchRequest)
-       search.start { response, error in
-           guard error == nil else {
-            dump(error)
-               return
-           }
-           guard let placeMark = response?.mapItems[0].placemark else {
-               return
-           }
-            
         
-        self.present(MainViewController(), animated: true, completion: nil)
+       search.start { response, error in
+        guard error == nil else {
+        dump(error)
+            return
+        }
+        
+        guard let placeMark = response?.mapItems[0].placemark.locality else { return }
+
+        let vc = MainViewController()
+        vc.setData(weather: MainWeatherModel(location: placeMark,
+                                             weather: "청명함",
+                                             temperature: 27,
+                                             highTemperature: 33,
+                                             lowTemperatuer: 22,
+                                             dailyWeather: [DailyWeatherModel(time: 22,
+                                                                              icon: "cloud",
+                                                                              temperature: 27)],
+                                             detailWeather: DetailWeatherModel(weekWeather:
+                                                                                [WeekWeaherModel(day: "일요일",
+                                                                                                 icon: "cloud",
+                                                                                                 precipitation: 20,
+                                                                                                 highTemperature: 32,
+                                                                                                 lowTemperature: 22)
+                                                                                 ])
+                                             ))
+        self.present(vc, animated: true, completion: nil)
        }
    }
 }

@@ -74,11 +74,10 @@ class LocationTableViewCell: UITableViewCell {
         }
     }
     
-    public func setData(location: String, temperature: Int) {
+    public func setData(location: String, temperature: Int, time: String) {
         locationLabel.text = location
         temperatureLabel.text = temperature.isFahrenheit().addTemperatureSymbol()
-    
-//        timeLabel.text = Calendar.current.timeZone + ""
+        timeLabel.text = time
     }
 
 }
