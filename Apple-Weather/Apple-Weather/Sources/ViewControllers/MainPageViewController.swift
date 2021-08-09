@@ -129,6 +129,7 @@ class MainPageViewController: UIViewController {
     
     private func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .addLocation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .deleteLocation, object: nil)
     }
 }
 
@@ -193,6 +194,12 @@ extension MainPageViewController {
         case .addLocation:
             if let  object = notification.object as? MainWeatherModel {
                 weathers.append(object)
+            }
+            setViewControllerList()
+        case .deleteLocation:
+            if let  index = notification.object as? Int {
+                print(index)
+                weathers.remove(at: index)
             }
             setViewControllerList()
         default:

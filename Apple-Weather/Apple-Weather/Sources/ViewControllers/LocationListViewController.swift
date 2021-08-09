@@ -120,6 +120,12 @@ extension LocationListViewController: UITableViewDelegate {
         switch indexPath.section {
         case 1:
             let action = UIContextualAction(style: .normal, title: nil) { _, _, completion in
+                self.weathers?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+                tableView.reloadData()
+                
+                NotificationCenter.default.post(name: .deleteLocation, object: indexPath.row, userInfo: nil)
+                
                 completion(true)
             }
 
