@@ -12,7 +12,7 @@ import Then
 
 class WeekContainerTableViewCell: UITableViewCell {
     
-    private var weekWeather: [WeekWeaherModel]?
+    private var dailyWeathers: DailyWeatherModel?
     
     private let weekWeatherTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.backgroundColor = .clear
@@ -56,8 +56,8 @@ class WeekContainerTableViewCell: UITableViewCell {
         }
     }
     
-    public func setData(weekWeather: [WeekWeaherModel]) {
-        self.weekWeather = weekWeather
+    public func setData(dailyWeathers: DailyWeatherModel) {
+        self.dailyWeathers = dailyWeathers
     }
     
     private func registerNotification() {
@@ -142,9 +142,9 @@ extension WeekContainerTableViewCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return weekWeather?.count ?? 0
+            return dailyWeathers?.weekWeather.count ?? 0
         case 1:
-            return 5
+            return (dailyWeathers?.detail.count ?? 0) / 2
         default:
             return 0
         }
@@ -157,14 +157,17 @@ extension WeekContainerTableViewCell: UITableViewDataSource {
             guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weekWeather, for: indexPath) as? WeekWeatherTableViewCell
             else { return UITableViewCell() }
             cell.selectionStyle = .none
-            if let weekWeather = weekWeather {
-                cell.setData(weekWeather: weekWeather[indexPath.row])
+            if let dailyWeathers = dailyWeathers {
+                cell.setData(weekWeather: dailyWeathers.weekWeather[indexPath.row])
             }
             return cell
         case 1:
             guard let cell = weekWeatherTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.weatherDetail, for: indexPath) as? WeatherDetailTableViewCell
             else { return UITableViewCell() }
             cell.selectionStyle = .none
+            if let dailyWeathers = dailyWeathers {
+                cell.setData(left: dailyWeathers.detail[2 * indexPath.row], right: dailyWeathers.detail[2 * indexPath.row + 1])
+            }
             return cell
         default:
             return UITableViewCell()

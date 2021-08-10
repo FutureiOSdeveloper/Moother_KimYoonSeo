@@ -8,7 +8,7 @@
 struct WeekWeaherModel {
     let day: String
     let icon: String
-    let precipitation: Int
+    let precipitation: Double?
     let highTemperature: Int
     let lowTemperature: Int
 }

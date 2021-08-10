@@ -110,7 +110,6 @@ extension DailyWeatherHeaderView: UICollectionViewDataSource {
         else { return UICollectionViewCell() }
         
         if let dailyWeather = dailyWeather {
-            print(dailyWeather[indexPath.row])
             cell.setData(dailyWeather: dailyWeather[indexPath.row])
         }
         

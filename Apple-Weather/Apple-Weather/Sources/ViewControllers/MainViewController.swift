@@ -253,7 +253,7 @@ extension MainViewController: UITableViewDataSource {
         guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekContainerTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         if let detailWeather = weather?.dailyWeather {
-            cell.setData(weekWeather: detailWeather.weekWeather)
+            cell.setData(dailyWeathers: detailWeather)
         }
         return cell
     }

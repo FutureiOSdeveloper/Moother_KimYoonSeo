@@ -7,4 +7,5 @@
 
 struct DailyWeatherModel {
     let weekWeather: [WeekWeaherModel]
+    let detail: [DetailModel]
 }
