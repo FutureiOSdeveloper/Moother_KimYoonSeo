@@ -13,6 +13,7 @@ import Then
 class LocationListViewController: UIViewController {
     
     private var weathers: [MainWeatherModel]?
+    private var myLocationWeather: [MainWeatherModel]?
     
     private let locationTableView = UITableView().then {
         $0.backgroundColor = .clear
@@ -75,7 +76,8 @@ class LocationListViewController: UIViewController {
         
     }
     
-    public func setData(weathers: [MainWeatherModel]) {
+    public func setData(myLocationWeather: [MainWeatherModel], weathers: [MainWeatherModel]) {
+        self.myLocationWeather = myLocationWeather
         self.weathers = weathers
     }
 
@@ -113,6 +115,7 @@ extension LocationListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NotificationCenter.default.post(name: .selectLocation, object: indexPath, userInfo: nil)
         dismiss(animated: true, completion: nil)
     }
     
@@ -152,7 +155,7 @@ extension LocationListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 1
+            return myLocationWeather?.count ?? 0
         case 1:
             return weathers?.count ?? 0
         default:
@@ -167,8 +170,8 @@ extension LocationListViewController: UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            if let weathers = weathers {
-                cell.setData(location: "나의 위치", temperature: weathers[indexPath.row].temperature, time: weathers[indexPath.row].location)
+            if let myLocationWeather = myLocationWeather {
+                cell.setData(location: "나의 위치", temperature: myLocationWeather[indexPath.row].temperature, time: myLocationWeather[indexPath.row].location)
             }
            
         case 1:
