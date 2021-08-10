@@ -14,6 +14,7 @@ class MainPageViewController: UIViewController {
     
     private var viewControllerList: [MainViewController] = []
     public var weathers: [MainWeatherModel] = []
+    public var myLocationWeather: [MainWeatherModel] = []
     
     private let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
@@ -40,9 +41,9 @@ class MainPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setData()
-        setLayoutPageViewController()
-        setPageViewController()
         setViewControllerList()
+        setLayoutPageViewController()
+        setPageViewController(index: 0)
         setPageControlBar()
         setTargets()
         
@@ -77,9 +78,10 @@ class MainPageViewController: UIViewController {
        
     }
     
-    private func setPageViewController() {
-        pageViewController.setViewControllers([instantiateViewController(index: 0)], direction: .forward, animated: true, completion: nil)
+    private func setPageViewController(index: Int) {
+        pageViewController.setViewControllers([viewControllerList[index]], direction: .forward, animated: true, completion: nil)
         pageViewController.didMove(toParent: self)
+        pageControl.currentPage = viewControllerList[index].view.tag
    }
     
     private let leftButton = UIButton().then {
@@ -112,8 +114,18 @@ class MainPageViewController: UIViewController {
     
     private func setViewControllerList() {
         viewControllerList.removeAll()
-        for index in 0...weathers.count - 1 {
-            viewControllerList.append(instantiateViewController(index: index))
+        
+        dump(viewControllerList)
+        
+        let vc = MainViewController()
+        vc.view.tag = 0
+        vc.setData(weather: myLocationWeather[0])
+        viewControllerList.append(vc)
+        
+        if weathers.count > 0 {
+            for index in 0...weathers.count - 1 {
+                viewControllerList.append(instantiateViewController(index: index))
+            }
         }
         
         pageControl.numberOfPages = viewControllerList.count
@@ -122,7 +134,7 @@ class MainPageViewController: UIViewController {
     
     private func instantiateViewController(index: Int) -> MainViewController {
         let vc = MainViewController()
-        vc.view.tag = index
+        vc.view.tag = index + 1
         vc.setData(weather: weathers[index])
         return vc
     }
@@ -130,25 +142,35 @@ class MainPageViewController: UIViewController {
     private func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .addLocation, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .deleteLocation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecieveNotification(_:)), name: .selectLocation, object: nil)
     }
 }
 
 extension MainPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        
-        guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
 
-        let nextIndex = index > 0 ? index - 1 : viewControllerList.count - 1
-        let nextVC = viewControllerList[nextIndex]
-        return nextVC
+        guard let index = pageViewController.viewControllers?.first?.view.tag else { return nil }
+       
+        let previousIndex = index - 1
+        
+        if previousIndex < 0 || viewControllerList.count <= previousIndex {
+            return nil
+        }
+        
+        return viewControllerList[previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let index = pageViewController.viewControllers?.first?.view.tag else { return UIViewController() }
         
-        let nextIndex = (index + 1) % viewControllerList.count
-        let nextVC = viewControllerList[nextIndex]
-        return nextVC
+        guard let index = pageViewController.viewControllers?.first?.view.tag else { return nil }
+       
+        let nextIndex = index + 1
+        
+        if viewControllerList.count <= nextIndex {
+            return nil
+        }
+        
+        return viewControllerList[nextIndex]
     }
     
 }
@@ -180,7 +202,7 @@ extension MainPageViewController {
         case rightButton:
             let locationListViewController = LocationListViewController()
             locationListViewController.modalPresentationStyle = .overCurrentContext
-            locationListViewController.setData(weathers: weathers)
+            locationListViewController.setData(myLocationWeather: myLocationWeather, weathers: weathers)
             present(locationListViewController, animated: true, completion: nil)
             
         default:
@@ -198,10 +220,21 @@ extension MainPageViewController {
             setViewControllerList()
         case .deleteLocation:
             if let  index = notification.object as? Int {
-                print(index)
                 weathers.remove(at: index)
             }
             setViewControllerList()
+            setPageViewController(index: 0)
+        case .selectLocation:
+            if let  index = notification.object as? IndexPath {
+                switch index.section {
+                case 0:
+                    setPageViewController(index: index.row)
+                case 1:
+                    setPageViewController(index: index.row+1)
+                default:
+                    break
+                }
+            }
         default:
             break
         }
