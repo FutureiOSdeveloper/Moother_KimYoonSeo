@@ -7,4 +7,5 @@
 
 struct UserDefaultsKey {
     static let FtoCButtonState: String = "FtoCButtonState"
+    static let appid: String = "WeatherToken"
 }

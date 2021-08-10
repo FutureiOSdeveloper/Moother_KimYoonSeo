@@ -175,7 +175,7 @@ extension SearchViewController: UITableViewDelegate {
         }
         
         guard let placeMark = response?.mapItems[0].placemark.locality else { return }
-
+        dump(response?.mapItems[0])
         let vc = MainViewController()
         vc.setData(weather: MainWeatherModel(location: placeMark,
                                              weather: "청명함",

@@ -9,8 +9,10 @@ import UIKit
 
 import SnapKit
 import Then
+import Moya
 
 class MainPageViewController: UIViewController {
+    private lazy var service = MoyaProvider<WeatherAPI>()
     
     private var viewControllerList: [MainViewController] = []
     public var weathers: [MainWeatherModel] = []
@@ -74,6 +76,25 @@ class MainPageViewController: UIViewController {
         pageViewController.view.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(toolbar.snp.top)
+        }
+        
+        service.request(WeatherAPI.getWeathers(lat: +48.28043530, lon: +127.11463210, exclude: "minutely")) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            dump(result)
+            switch result {
+            case .success(let response):
+                do {
+                    let response = try JSONDecoder().decode(GenericModel.self, from: response.data)
+                    dump(response)
+                } catch let err {
+                    debugPrint(err)
+                    
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
        
     }
@@ -230,7 +251,7 @@ extension MainPageViewController {
                 case 0:
                     setPageViewController(index: index.row)
                 case 1:
-                    setPageViewController(index: index.row+1)
+                    setPageViewController(index: index.row + 1)
                 default:
                     break
                 }

@@ -13,7 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let weatherToken = "43e744bd747e3acafd7cbe50e304701d"
+        UserDefaults.standard.setValue(weatherToken, forKey: UserDefaultsKey.appid)
         return true
     }
 

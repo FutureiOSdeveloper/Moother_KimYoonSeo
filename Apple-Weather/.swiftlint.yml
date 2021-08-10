@@ -97,4 +97,5 @@ identifier_name:
     - me
     - db
     - FtoCButton
+    - dt
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
