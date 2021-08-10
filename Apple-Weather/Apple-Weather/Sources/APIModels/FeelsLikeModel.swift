@@ -17,4 +17,3 @@ struct FeelsLike: Codable {
         morn = (try? value.decode(Double.self, forKey: .morn)) ?? 0
     }
 }
-

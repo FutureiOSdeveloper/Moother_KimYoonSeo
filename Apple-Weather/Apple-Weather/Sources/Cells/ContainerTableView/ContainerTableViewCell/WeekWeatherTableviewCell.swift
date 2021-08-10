@@ -13,21 +13,26 @@ import Then
 class WeekWeatherTableViewCell: UITableViewCell {
     
     private let dayLabel = UILabel().then {
-        $0.text = "금요일"
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .white
     }
     
     private let highTemperatureLabel = UILabel().then {
-        $0.text = "34"
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .white
+        $0.textAlignment = .center
     }
     
     private let lowTemperatureLabel = UILabel().then {
-        $0.text = "24"
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .white
+        $0.textAlignment = .center
+    }
+    
+    private let precipitationLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 12)
+        $0.textColor = .systemBlue
+        $0.textAlignment = .center
     }
     
     private let weatherImageView = UIImageView().then {
@@ -53,7 +58,7 @@ class WeekWeatherTableViewCell: UITableViewCell {
     
     private func layoutWeekWeatherTableViewCell() {
         backgroundColor = .clear
-        contentView.addSubviews(dayLabel, highTemperatureLabel, lowTemperatureLabel, weatherImageView)
+        contentView.addSubviews(dayLabel, highTemperatureLabel, lowTemperatureLabel, weatherImageView, precipitationLabel)
         
         dayLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -68,18 +73,31 @@ class WeekWeatherTableViewCell: UITableViewCell {
         lowTemperatureLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-Constants.Spacing.s20)
+            $0.width.equalTo(30)
         }
         
         highTemperatureLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalTo(lowTemperatureLabel.snp.leading).inset(-Constants.Spacing.s20)
+            $0.trailing.equalTo(lowTemperatureLabel.snp.leading).inset(-10)
+            $0.width.equalTo(30)
         }
+        
+        precipitationLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(weatherImageView.snp.trailing).inset(-10)
+        }
+        
     }
     
     public func setData(weekWeather: WeekWeaherModel) {
         dayLabel.text = weekWeather.day
-        highTemperatureLabel.text = weekWeather.highTemperature.isFahrenheit().addTemperatureSymbol()
-        lowTemperatureLabel.text = weekWeather.lowTemperature.isFahrenheit().addTemperatureSymbol()
-        weatherImageView.image = UIImage(systemName: weekWeather.icon)
+        highTemperatureLabel.text = "\(weekWeather.highTemperature.isFahrenheit())"
+        lowTemperatureLabel.text = "\(weekWeather.lowTemperature.isFahrenheit())"
+        weatherImageView.image = UIImage(systemName: weekWeather.icon.convertIcon())
+        if let precipitation = weekWeather.precipitation {
+            if Int(precipitation) > 0 {
+                precipitationLabel.text = "\(String(describing: Int(precipitation)))mm"
+            }
+        }
     }
 }

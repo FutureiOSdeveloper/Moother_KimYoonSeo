@@ -5,7 +5,6 @@
 //  Created by 김윤서 on 2021/08/10.
 //
 
-
 struct Weather: Codable {
     let id: Int
     let main: String
@@ -26,17 +25,4 @@ struct Weather: Codable {
         icon = (try? value.decode(String.self, forKey: .icon)) ?? ""
     }
     
-}
-
-enum Icon: String, Codable {
-    case the04D = "04d"
-    case the04N = "04n"
-    case the10D = "10d"
-    case the10N = "10n"
-}
-
-enum Main: String, Codable {
-    case clear = "Clear"
-    case clouds = "Clouds"
-    case rain = "Rain"
 }

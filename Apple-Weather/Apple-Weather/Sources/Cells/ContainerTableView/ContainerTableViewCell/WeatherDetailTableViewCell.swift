@@ -61,6 +61,13 @@ class WeatherDetailTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        [leftLabel, leftContentLabel, rightLabel, rightContentLabel].forEach {
+            $0.text = nil
+        }
+    }
+    
     private func layoutWeatherDetailTableViewCell() {
         backgroundColor = .clear
         
@@ -88,4 +95,16 @@ class WeatherDetailTableViewCell: UITableViewCell {
             $0.height.equalTo(Constants.Seperator.height)
         }
     }
+    
+    public func setData(left: DetailModel, right: DetailModel) {
+        leftLabel.text = left.description
+        leftContentLabel.text = left.content
+        rightLabel.text = right.description
+        rightContentLabel.text = right.content
+    }
+}
+
+struct DetailModel {
+    let description: String
+    let content: String
 }

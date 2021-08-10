@@ -5,7 +5,6 @@
 //  Created by 김윤서 on 2021/08/10.
 //
 
-
 struct Daily: Codable {
     let dt, sunrise, sunset, moonrise: Int
     let moonset: Int
