@@ -12,7 +12,7 @@ import Then
 
 class DailyWeatherHeaderView: UITableViewHeaderFooterView {
     
-    private var dailyWeather: [DailyWeatherModel]?
+    private var dailyWeather: [HourlyWeatherModel]?
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         let layout = UICollectionViewFlowLayout()
@@ -76,7 +76,7 @@ class DailyWeatherHeaderView: UITableViewHeaderFooterView {
         }
     }
     
-    public func setData(dailyWeather: [DailyWeatherModel]) {
+    public func setData(dailyWeather: [HourlyWeatherModel]) {
         self.dailyWeather = dailyWeather
     }
     
@@ -110,6 +110,7 @@ extension DailyWeatherHeaderView: UICollectionViewDataSource {
         else { return UICollectionViewCell() }
         
         if let dailyWeather = dailyWeather {
+            print(dailyWeather[indexPath.row])
             cell.setData(dailyWeather: dailyWeather[indexPath.row])
         }
         

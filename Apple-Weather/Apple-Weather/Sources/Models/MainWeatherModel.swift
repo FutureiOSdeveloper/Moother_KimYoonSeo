@@ -12,6 +12,6 @@ struct MainWeatherModel {
     let highTemperature: Int
     let lowTemperatuer: Int
     
-    let dailyWeather: [DailyWeatherModel]
-    let detailWeather: DetailWeatherModel
+    let hourlyWeather: [HourlyWeatherModel]
+    let dailyWeather: DailyWeatherModel
 }

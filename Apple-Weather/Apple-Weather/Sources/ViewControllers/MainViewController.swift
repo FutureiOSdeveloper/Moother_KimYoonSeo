@@ -224,7 +224,7 @@ extension MainViewController: UITableViewDelegate {
         }
         
         if let weather = weather {
-            header.setData(dailyWeather: weather.dailyWeather)
+            header.setData(dailyWeather: weather.hourlyWeather)
         }
     
         return header
@@ -252,7 +252,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard  let cell = mainTableView.dequeueReusableCell(withIdentifier: Constants.TableViewCells.week, for: indexPath) as? WeekContainerTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        if let detailWeather = weather?.detailWeather {
+        if let detailWeather = weather?.dailyWeather {
             cell.setData(weekWeather: detailWeather.weekWeather)
         }
         return cell

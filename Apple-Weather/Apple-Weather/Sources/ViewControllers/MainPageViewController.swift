@@ -7,12 +7,13 @@
 
 import UIKit
 
+import Moya
 import SnapKit
 import Then
-import Moya
 
 class MainPageViewController: UIViewController {
     private lazy var service = MoyaProvider<WeatherAPI>()
+    private var getWeather: GenericModel?
     
     private var viewControllerList: [MainViewController] = []
     public var weathers: [MainWeatherModel] = []
@@ -42,13 +43,11 @@ class MainPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setData()
-        setViewControllerList()
+    
+        requestGetWeather()
         setLayoutPageViewController()
-        setPageViewController(index: 0)
         setPageControlBar()
         setTargets()
-        
         registerNotification()
         
     }
@@ -76,25 +75,6 @@ class MainPageViewController: UIViewController {
         pageViewController.view.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(toolbar.snp.top)
-        }
-        
-        service.request(WeatherAPI.getWeathers(lat: +48.28043530, lon: +127.11463210, exclude: "minutely")) { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            dump(result)
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try JSONDecoder().decode(GenericModel.self, from: response.data)
-                    dump(response)
-                } catch let err {
-                    debugPrint(err)
-                    
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
         }
        
     }
@@ -262,4 +242,77 @@ extension MainPageViewController {
         
     }
 
+}
+
+extension MainPageViewController {
+
+    func requestGetWeather() {
+        service.request(WeatherAPI.getWeathers(lat: +37.28043530, lon: +127.11463210, exclude: "minutely")) { [weak self] result in
+            switch result {
+            case .success(let response):
+                do {
+                    
+                    let response = try JSONDecoder().decode(GenericModel.self, from: response.data)
+                    self?.getWeather = response
+                    
+                    self?.convertMainWeatherModel(response: response)
+                } catch let err {
+                    debugPrint(err)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func convertMainWeatherModel(response: GenericModel) {
+        let now = Date()
+        let date = DateFormatter()
+        date.locale = Locale(identifier: "ko_KR")
+        date.timeZone = TimeZone(identifier: "KST")
+        date.dateFormat = "HH"
+        
+        let date2 = DateFormatter()
+        date2.locale = Locale(identifier: "ko_KR")
+        date2.timeZone = TimeZone(identifier: "KST")
+        date2.dateFormat = "EEEE"
+        
+        var hourlyWeatherModel: [HourlyWeatherModel] = []
+        var weekWeatherModel: [WeekWeaherModel] = []
+        
+        let hourly = response.hourly
+        let daily = response.daily
+        
+        print("시간")
+        print(date.string(from: now))
+        
+        for index in 0...23 {
+            hourlyWeatherModel.append(HourlyWeatherModel(
+                                        time: date.string(from: Date(timeIntervalSince1970: TimeInterval(hourly[index].dt))),
+                                        icon: "cloud",
+                                        temperature: Int(hourly[index].temp)))
+        }
+        
+        print(response.hourly.count)
+        
+        for index in 0...response.daily.count - 1 {
+            weekWeatherModel.append(WeekWeaherModel(
+                                        day: date2.string(from: Date(timeIntervalSince1970: TimeInterval(response.daily[index].dt))),
+                                        icon: "cloud",
+                                        precipitation: 20,
+                                        highTemperature: Int(daily[index].temp.max),
+                                        lowTemperature: Int(daily[index].temp.min)))
+        }
+        
+        myLocationWeather.append(MainWeatherModel(location: response.timezone,
+                                                  weather: response.current.weather[0].main.rawValue,
+                                                  temperature: Int(response.current.temp),
+                                                  highTemperature: Int(daily[0].temp.max),
+                                                  lowTemperatuer: Int(daily[0].temp.min),
+                                                  hourlyWeather: hourlyWeatherModel,
+                                                  dailyWeather: DailyWeatherModel(weekWeather: weekWeatherModel)
+        ))
+        setViewControllerList()
+        setPageViewController(index: 0)
+    }
 }
