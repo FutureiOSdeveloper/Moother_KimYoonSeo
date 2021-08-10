@@ -14,11 +14,12 @@ struct GenericModel: Codable {
     let current: Current
     let hourly: [Current]
     let daily: [Daily]
+    let alerts: Alert?
 
     enum CodingKeys: String, CodingKey {
         case lat, lon, timezone
         case timezoneOffset = "timezone_offset"
-        case current, hourly, daily
+        case current, hourly, daily, alerts
     }
     
     init(from decoder: Decoder) throws {
@@ -30,5 +31,6 @@ struct GenericModel: Codable {
         current = (try value.decode(Current.self, forKey: .current))
         hourly = (try value.decode([Current].self, forKey: .hourly))
         daily = (try value.decode([Daily].self, forKey: .daily))
+        alerts = (try? value.decode(Alert.self, forKey: .alerts))
     }
 }

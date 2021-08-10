@@ -175,13 +175,14 @@ extension LocationListViewController: UITableViewDataSource {
             }
            
         case 1:
-            let now = Date()
-            let date = DateFormatter()
-            date.locale = Locale(identifier: "ko_kr")
-            date.timeZone = TimeZone(abbreviation: "KST")
-            date.dateFormat = "HH:mm"
             
             if let weathers = weathers {
+                let now = Date()
+                let date = DateFormatter()
+                date.locale = Locale(identifier: "ko_kr")
+                date.timeZone = TimeZone(secondsFromGMT: weathers[indexPath.row].timezonwOffset)
+                date.dateFormat = "HH:mm"
+                
                 cell.setData(location: weathers[indexPath.row].location, temperature: weathers[indexPath.row].temperature, time: date.string(from: now))
             }
         default:

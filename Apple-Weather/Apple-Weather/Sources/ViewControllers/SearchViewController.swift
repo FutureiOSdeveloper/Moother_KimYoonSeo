@@ -9,10 +9,15 @@ import Foundation
 import UIKit
 
 import MapKit
+import Moya
 import SnapKit
 import Then
 
 class SearchViewController: UIViewController {
+    private lazy var service = MoyaProvider<WeatherAPI>(plugins: [MoyaLoggingPlugin()])
+    private var getWeather: GenericModel?
+    
+    private var searchWeather: MainWeatherModel?
     
     private let searchBar = UISearchBar().then {
         $0.backgroundColor = .clear
@@ -170,30 +175,17 @@ extension SearchViewController: UITableViewDelegate {
         
        search.start { response, error in
         guard error == nil else {
-        dump(error)
             return
         }
-        
-        guard let placeMark = response?.mapItems[0].placemark.locality else { return }
-        dump(response?.mapItems[0])
+        guard let placemark = response?.mapItems[0].placemark else { return }
+
         let vc = MainViewController()
-//        vc.setData(weather: MainWeatherModel(location: placeMark,
-//                                             weather: "청명함",
-//                                             temperature: 27,
-//                                             highTemperature: 33,
-//                                             lowTemperatuer: 22,
-//                                             hourlyWeather: [HourlyWeatherModel(time: 22,
-//                                                                              icon: "cloud",
-//                                                                              temperature: 27)],
-//                                             dailyWeather: DailyWeatherModel(weekWeather:
-//                                                                                [WeekWeaherModel(day: "일요일",
-//                                                                                                 icon: "cloud",
-//                                                                                                 precipitation: 20,
-//                                                                                                 highTemperature: 32,
-//                                                                                                 lowTemperature: 22)
-//                                                                                 ])
-//                                             ))
-        self.present(vc, animated: true, completion: nil)
+        self.requestGetWeather(lat: placemark.coordinate.latitude, lon: placemark.coordinate.longitude, location: (placemark.locality ?? placemark.title) ?? "") { result in
+            if let result = result {
+                vc.setData(weather: result)
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
        }
    }
 }
@@ -226,5 +218,79 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
+    }
+}
+
+extension SearchViewController {
+    func requestGetWeather(lat: Double, lon: Double, location: String, completion: @escaping (MainWeatherModel?) -> Void) {
+        service.request(WeatherAPI.getWeathers(lat: lat, lon: lon, exclude: "minutely")) { [weak self] result in
+            switch result {
+            case .success(let response):
+                do {
+                    
+                    let response = try JSONDecoder().decode(GenericModel.self, from: response.data)
+                    self?.getWeather = response
+                    
+                     completion(self?.convertMainWeatherModel(response: response, location: location))
+                    
+                } catch let err {
+                    debugPrint(err)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func convertMainWeatherModel(response: GenericModel, location: String) -> MainWeatherModel? {
+        let now = Date()
+        let date = DateFormatter()
+        date.locale = Locale(identifier: "ko_KR")
+        date.timeZone = TimeZone(secondsFromGMT: response.timezoneOffset)
+        date.dateFormat = "HH"
+        
+        let date2 = DateFormatter()
+        date2.locale = Locale(identifier: "ko_KR")
+        date2.timeZone = TimeZone(identifier: "KST")
+        date2.dateFormat = "EEEE"
+        
+        var hourlyWeatherModel: [HourlyWeatherModel] = []
+        var weekWeatherModel: [WeekWeaherModel] = []
+        
+        let hourly = response.hourly
+        let daily = response.daily
+        
+        print("시간")
+        print(date.string(from: now))
+        
+        for index in 0...23 {
+            hourlyWeatherModel.append(HourlyWeatherModel(
+                                        time: date.string(from: Date(timeIntervalSince1970: TimeInterval(hourly[index].dt))),
+                                        icon: "cloud",
+                                        temperature: Int(hourly[index].temp)))
+        }
+        
+        print(response.hourly.count)
+        
+        for index in 0...response.daily.count - 1 {
+            weekWeatherModel.append(WeekWeaherModel(
+                                        day: date2.string(from: Date(timeIntervalSince1970: TimeInterval(response.daily[index].dt))),
+                                        icon: "cloud",
+                                        precipitation: 20,
+                                        highTemperature: Int(daily[index].temp.max),
+                                        lowTemperature: Int(daily[index].temp.min)))
+        }
+        
+        searchWeather = MainWeatherModel(location: location,
+                                         weather: response.current.weather[0].weatherDescription,
+                                         temperature: Int(response.current.temp),
+                                         highTemperature: Int(daily[0].temp.max),
+                                         lowTemperatuer: Int(daily[0].temp.min),
+                                         timezonwOffset: response.timezoneOffset,
+                                         hourlyWeather: hourlyWeatherModel,
+                                         dailyWeather: DailyWeatherModel(weekWeather: weekWeatherModel)
+        )
+        
+        return searchWeather
     }
 }

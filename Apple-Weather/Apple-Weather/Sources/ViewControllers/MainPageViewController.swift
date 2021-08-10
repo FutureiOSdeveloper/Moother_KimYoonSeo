@@ -115,9 +115,7 @@ class MainPageViewController: UIViewController {
     
     private func setViewControllerList() {
         viewControllerList.removeAll()
-        
-        dump(viewControllerList)
-        
+    
         let vc = MainViewController()
         vc.view.tag = 0
         vc.setData(weather: myLocationWeather[0])
@@ -305,10 +303,11 @@ extension MainPageViewController {
         }
         
         myLocationWeather.append(MainWeatherModel(location: response.timezone,
-                                                  weather: response.current.weather[0].main.rawValue,
+                                                  weather: response.current.weather[0].weatherDescription,
                                                   temperature: Int(response.current.temp),
                                                   highTemperature: Int(daily[0].temp.max),
                                                   lowTemperatuer: Int(daily[0].temp.min),
+                                                  timezonwOffset: response.timezoneOffset,
                                                   hourlyWeather: hourlyWeatherModel,
                                                   dailyWeather: DailyWeatherModel(weekWeather: weekWeatherModel)
         ))

@@ -7,16 +7,17 @@
 
 struct Current: Codable {
     let dt: Int
-   let sunrise, sunset: Int?
-   let temp, feelsLike: Double
-   let pressure, humidity: Int
-   let dewPoint, uvi: Double
-   let clouds, visibility: Int
-   let windSpeed: Double
-   let windDeg: Int
-   let weather: [Weather]
-   let rain: Rain?
-   let windGust, pop: Double?
+    let sunrise, sunset: Int?
+    let temp, feelsLike: Double
+    let pressure, humidity: Int
+    let dewPoint, uvi: Double
+    let clouds, visibility: Int
+    let windSpeed: Double
+    let windDeg: Int
+    let windGust: Double
+    let weather: [Weather]
+    let pop: Double?
+    let rain: Rain?
 
     enum CodingKeys: String, CodingKey {
         case dt, sunrise, sunset, temp

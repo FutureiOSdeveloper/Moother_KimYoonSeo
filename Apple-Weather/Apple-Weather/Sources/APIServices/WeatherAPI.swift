@@ -42,7 +42,7 @@ extension WeatherAPI: TargetType {
         switch self {
         case let .getWeathers(lat, lon, exclude):
             return .requestParameters(
-                parameters: [ "lat": lat, "lon": lon, "exclude": exclude, "units": "metric", "appid": "43e744bd747e3acafd7cbe50e304701d"], encoding: URLEncoding.queryString)
+                parameters: [ "lat": lat, "lon": lon, "exclude": exclude, "units": "metric", "appid": "43e744bd747e3acafd7cbe50e304701d", "lang": "kr"], encoding: URLEncoding.queryString)
         }
     }
     
