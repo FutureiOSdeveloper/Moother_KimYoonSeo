@@ -21,6 +21,7 @@ class DailyWeatherCollectionViewCell: UICollectionViewCell {
     private let weatherImageView = UIImageView().then {
         $0.image = UIImage(systemName: "cloud.rain.fill")
         $0.tintColor = .white
+        $0.contentMode = .scaleAspectFit
     }
     
     private let temperatureLabel = UILabel().then {

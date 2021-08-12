@@ -31,7 +31,7 @@ class WeekWeatherTableViewCell: UITableViewCell {
     
     private let precipitationLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12)
-        $0.textColor = .systemBlue
+        $0.textColor = UIColor(red: 178 / 255, green: 204 / 255, blue: 255 / 255, alpha: 1)
         $0.textAlignment = .center
     }
     

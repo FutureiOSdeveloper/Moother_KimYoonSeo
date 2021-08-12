@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 class MainPageViewController: UIViewController {
-    private lazy var service = MoyaProvider<WeatherAPI>()
+    private lazy var service = MoyaProvider<WeatherAPI>(plugins: [MoyaLoggingPlugin()])
     private var getWeather: GenericModel?
     
     private var viewControllerList: [MainViewController] = []
