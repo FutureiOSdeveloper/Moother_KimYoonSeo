@@ -61,9 +61,7 @@ class MainViewController: UIViewController {
         $0.spacing = 10
     }
     
-    private let lottieView = AnimationView(name: "4796-weather-cloudynight").then { animationView in
-        animationView.play()
-    }
+    private var lottieView = AnimationView(name: "4796-weather-cloudynight")
     
     private let dismissButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
@@ -83,6 +81,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initMainTableView()
+        
+        setLottieView()
         setLayoutMainViewController()
         setTargets()
         setButton()
@@ -96,13 +96,19 @@ class MainViewController: UIViewController {
         dismissButton.isHidden = !isModal
     }
     
+    private func setLottieView() {
+        lottieView = .init(name: self.setLottieImage(weather?.timezonwOffset ?? 0))
+    }
+    
     private func setTargets() {
         dismissButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
         addButton.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
     }
     
     private func setLayoutMainViewController() {
-        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 45 / 255, alpha: 1)
+
+        view.backgroundColor = .black
+    
         view.addSubviews(lottieView, locationStackView, mainTableView, dismissButton, addButton)
         
         lottieView.snp.makeConstraints {

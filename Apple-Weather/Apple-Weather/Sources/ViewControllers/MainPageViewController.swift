@@ -51,7 +51,7 @@ class MainPageViewController: UIViewController {
     }
     
     private func setLayoutPageViewController() {
-        view.backgroundColor = UIColor(red: 0 / 255, green: 0 / 255, blue: 45 / 255, alpha: 1)
+        view.backgroundColor = .black
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
