@@ -31,9 +31,9 @@ extension Date {
         let date = DateFormatter()
         date.locale = Locale(identifier: "ko_kr")
         date.timeZone = TimeZone(secondsFromGMT: timezone)
-    
-        let hour = Calendar.current.component(.hour, from: date.date(from: date.string(from: self)) ?? Date())
-
+        date.dateFormat = "HH"
+        let hour = Int(date.string(from: self))!
+        
         switch hour {
         case 6..<17 :
             return false

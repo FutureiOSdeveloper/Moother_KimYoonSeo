@@ -61,7 +61,10 @@ class MainViewController: UIViewController {
         $0.spacing = 10
     }
     
-    private var lottieView = AnimationView(name: "4796-weather-cloudynight")
+    public var lottieView = AnimationView().then {
+        $0.play()
+        $0.loopMode = .loop
+    }
     
     private let dismissButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
@@ -82,13 +85,17 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         initMainTableView()
         
-        setLottieView()
         setLayoutMainViewController()
         setTargets()
         setButton()
         
         registerNotification()
    
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+      
     }
     
     private func setButton() {
@@ -108,7 +115,7 @@ class MainViewController: UIViewController {
     private func setLayoutMainViewController() {
 
         view.backgroundColor = .black
-    
+        
         view.addSubviews(lottieView, locationStackView, mainTableView, dismissButton, addButton)
         
         lottieView.snp.makeConstraints {
@@ -160,6 +167,10 @@ class MainViewController: UIViewController {
             lowTemperatureLabel.text = "최저:\(weather.lowTemperatuer.isFahrenheit().addTemperatureSymbol())"
             highTemperatureLabel.text = "최고:\(weather.highTemperature.isFahrenheit().addTemperatureSymbol())"
             weatherLabel.text = weather.weather
+            lottieView = AnimationView(name: self.setLottieImage(weather.timezonwOffset))
+            lottieView.play()
+            lottieView.loopMode = .loop
+
         }
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Lottie
 import Moya
 import SnapKit
 import Then
@@ -42,12 +43,11 @@ class MainPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        requestGetWeather()
         setLayoutPageViewController()
         setPageControlBar()
         setTargets()
         registerNotification()
-        
+        requestGetWeather()
     }
     
     private func setLayoutPageViewController() {
@@ -133,6 +133,12 @@ class MainPageViewController: UIViewController {
         let vc = MainViewController()
         vc.view.tag = index + 1
         vc.setData(weather: weathers[index])
+//        
+//        if Date().isNight(weathers[index].timezonwOffset ) {
+//            vc.view.backgroundColor = .black
+//        } else {
+//            vc.view.backgroundColor = .blue
+//        }
         return vc
     }
     
