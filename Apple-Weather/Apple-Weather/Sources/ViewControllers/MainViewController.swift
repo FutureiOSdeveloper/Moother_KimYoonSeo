@@ -85,6 +85,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         initMainTableView()
         
+        setLottieView()
         setLayoutMainViewController()
         setTargets()
         setButton()
@@ -105,6 +106,8 @@ class MainViewController: UIViewController {
     
     private func setLottieView() {
         lottieView = .init(name: self.setLottieImage(weather?.timezonwOffset ?? 0))
+        lottieView.play()
+        lottieView.loopMode = .loop
     }
     
     private func setTargets() {
